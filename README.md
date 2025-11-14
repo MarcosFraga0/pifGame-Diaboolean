@@ -12,13 +12,31 @@ Aventure-se nas profundezas de Diaboolean, uma masmorra corrompida onde a própr
 
 ## 🚀 Instruções para Compilar e Executar
 
-*(A preencher nas próximas entregas)*
+### Requerimentos
+- Linux, Mac ou WSL
+- Compilador (gcc) ou Make
+
+```shell
+
+# usando compilador
+gcc $(find src -name '*.c') -I include/ -o build/main && ./build/main
+
+# or
+
+# usando Make
+make run
+```
 
 ---
 
 ## 🎮 Regras e Como Jogar
 
-*(A preencher nas próximas entregas)*
+### Modos
+- salas normais, onde o personagem lê avisos e vai até a porta da próxima fase
+- salas de batalha, onde o personagem pecorre uma grid definindo valores lógicos: J (none), K (true), L (false), enquanto um inimigo redefine os valores já colocados e ataca o personagem.
+
+### Como vencer?
+Use os valores lógicos juntos dos simbolos para corresponder ao valor lógico de conclusão nas bordas da grid, assim validandos as premissas e ganhando a fase.
 
 ---
 

@@ -60,8 +60,6 @@ typedef enum {BLACK, RED, GREEN, BROWN, BLUE, MAGENTA, CYAN, LIGHTGRAY,
         DARKGRAY, LIGHTRED, LIGHTGREEN, YELLOW, LIGHTBLUE, 
         LIGHTMAGENTA, LIGHTCYAN, WHITE} screenColor; 
 
-
-
 /**
  * Move the cursor to position (0,0)
 */

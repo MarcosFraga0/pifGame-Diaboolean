@@ -1,89 +1,73 @@
 /**
- * main.h
- * Created on Aug, 23th 2023
- * Author: Tiago Barros
- * Based on "From C to C++ course - 2002"
-*/
+ * @file main.c
+ * @author Vinicius Braz (gitviini)
+ * @date Nov, 9th 2025
+ * @details Roda lógica principal do game
+ */
 
-#include <string.h>
+#include <stdio.h>
 
-#include "screen.h"
 #include "keyboard.h"
+#include "screen.h"
 #include "timer.h"
 
-int x = 34, y = 12;
-int incX = 1, incY = 1;
+#include "entities/entity.h"
+#include "handlers/keyboardHandler.h"
+#include "rooms/first_room.h"
+#include "rooms/second_room.h"
 
-void printHello(int nextX, int nextY)
+#define CLOCK 100
+
+void clearScreen();
+
+int main()
 {
-    screenSetColor(CYAN, DARKGRAY);
-    screenGotoxy(x, y);
-    printf("           ");
-    x = nextX;
-    y = nextY;
-    screenGotoxy(x, y);
-    printf("Hello World");
+  // main entity
+  Entity player = {
+    {4, 8},
+    {0, 0},
+    {1, 1},
+    {0, collisionNone},
+    {"🤓"},
+    WHITE,
+    WHITE
+  };
+
+  // init config
+  screenInit(1);
+  keyboardInit();
+  timerInit(CLOCK);
+  screenUpdate();
+
+  // game rooms
+  initFirstRoom(&player);
+  clearScreen();
+  initSecondRoom(&player);
+  clearScreen();
+
+  // stop config
+  screenDestroy();
+  keyboardDestroy();
+  timerDestroy();
+  return 0;
 }
 
-void printKey(int ch)
+void clearScreen()
 {
-    screenSetColor(YELLOW, DARKGRAY);
-    screenGotoxy(35, 22);
-    printf("Key code :");
-
-    screenGotoxy(34, 23);
-    printf("            ");
-    
-    if (ch == 27) screenGotoxy(36, 23);
-    else screenGotoxy(39, 23);
-
-    printf("%d ", ch);
-    while (keyhit())
+  int i = 0;
+  while (i <= MAXY + 2)
+  {
+    if (timerTimeOver() == 1)
     {
-        printf("%d ", readch());
-    }
-}
-
-int main() 
-{
-    static int ch = 0;
-    static long timer = 0;
-
-    screenInit(1);
-    keyboardInit();
-    timerInit(50);
-
-    printHello(x, y);
-    screenUpdate();
-
-    while (ch != 10 && timer <= 100) //enter or 5s
-    {
-        // Handle user input
-        if (keyhit()) 
+      for (int y = 0; y < i; y++){
+        for (int x = 0; x < MAXX; x++)
         {
-            ch = readch();
-            printKey(ch);
-            screenUpdate();
+          screenGotoxy(x, y);
+          printf(" ");
         }
-
-        // Update game state (move elements, verify collision, etc)
-        if (timerTimeOver() == 1)
-        {
-            int newX = x + incX;
-            if (newX >= (MAXX -strlen("Hello World") -1) || newX <= MINX+1) incX = -incX;
-            int newY = y + incY;
-            if (newY >= MAXY-1 || newY <= MINY+1) incY = -incY;
-
-            printHello(newX, newY);
-
-            screenUpdate();
-            timer++;
-        }
+      }
+      screenUpdate();
+      i+=2;
     }
-
-    keyboardDestroy();
-    screenDestroy();
-    timerDestroy();
-
-    return 0;
+  }
 }
