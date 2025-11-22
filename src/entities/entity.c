@@ -62,10 +62,10 @@ void entityMove(Entity *entity)
 }
 
 /**
- * @brief Limpa, atualia a posição do entity e mostra-o na tela
- * @param {Entity *entity} ponteiro de entidade
+ * @brief clear entity's sprite
+ * @param {Entity *entity} entity that will be cleared
  */
-void showEntity(Entity *entity)
+void clearEntitySprite(Entity *entity)
 {
     // clear drawn sprite
     for (int y = 0; y < entity->len.y; y++)
@@ -77,6 +77,38 @@ void showEntity(Entity *entity)
             printf(" ");
         }
     }
+}
+
+/**
+ * @brief draw one sprite layer of entity
+ * @param {char *sprite} sprite's entity
+ * @param {int spriteLen} sprite's length
+ * @param {int entityLenX} y sprite axes
+ */
+void drawEntitySpriteLayer(char *sprite, int spriteLen, int entityLenX)
+{
+    // if spritelen is smaller than entity len x, alto fill
+    if (spriteLen > 0 && spriteLen < entityLenX)
+    {
+        for (int x = 0; x < (entityLenX / spriteLen); x++)
+        {
+            printf("%s", sprite);
+        }
+        return;
+    }
+
+    // if it isn't smaller, print
+    printf("%s", sprite);
+}
+
+/**
+ * @brief Limpa, atualia a posição do entity e mostra-o na tela
+ * @param {Entity *entity} ponteiro de entidade
+ */
+void showEntity(Entity *entity)
+{
+    // clear drawn sprite
+    clearEntitySprite(entity);
 
     // apply velocity
     entityMove(entity);
@@ -85,25 +117,19 @@ void showEntity(Entity *entity)
     for (int y = 0; y < entity->len.y; y++)
     {
         screenGotoxy(entity->pos.x, entity->pos.y + y);
+        // get sprite size in x axes
+        int spriteLen = strlen(entity->sprite[y]);
 
         // if sprite have only one sprite layer
         if (entity->sprite[y][0] == '\0')
         {
-            printf("%s", entity->sprite[0]);
-        }
-
-        int spriteLen = strlen(entity->sprite[y]);
-        // if spritelen is smaller than entity len x, alto fill
-        if (spriteLen > 0 && spriteLen < entity->len.x)
-        {
-            for (int x = 0; x < (entity->len.x / spriteLen) - 1; x++)
-            {
-                printf("%s", entity->sprite[y]);
-            }
+            spriteLen = strlen(entity->sprite[0]);
+            drawEntitySpriteLayer(entity->sprite[0], spriteLen, entity->len.x);
+            continue;
         }
 
         // if sprite have many sprite layers
-        printf("%s", entity->sprite[y]);
+        drawEntitySpriteLayer(entity->sprite[y], spriteLen, entity->len.x);
     }
     screenSetNormal();
 
@@ -112,46 +138,30 @@ void showEntity(Entity *entity)
 }
 
 /**
- * @brief  mostra entity na tela
+ * @brief mostra entitidades que não se movem na tela
+ * @attention não limpa sprite anterior
  * @param {Entity *entity} ponteiro de entidade
  */
 void showEntityNoMove(Entity *entity)
 {
-    // clear drawn sprite
-    for (int y = 0; y < entity->len.y; y++)
-    {
-        for (int x = 0; x < entity->len.x; x++)
-        {
-            // limpa pixel por pixel
-            screenGotoxy(entity->pos.x + x, entity->pos.y + y);
-            printf(" ");
-        }
-    }
-
     // draw sprite
     screenSetColor(entity->fg, entity->bg);
     for (int y = 0; y < entity->len.y; y++)
     {
         screenGotoxy(entity->pos.x, entity->pos.y + y);
+        // get sprite size in x axes
+        int spriteLen = strlen(entity->sprite[y]);
 
         // if sprite have only one sprite layer
         if (entity->sprite[y][0] == '\0')
         {
-            printf("%s", entity->sprite[0]);
-        }
-
-        int spriteLen = strlen(entity->sprite[y]);
-        // if spritelen is smaller than entity len x, alto fill
-        if (spriteLen > 0 && spriteLen < entity->len.x)
-        {
-            for (int x = 0; x < (entity->len.x / spriteLen) - 1; x++)
-            {
-                printf("%s", entity->sprite[y]);
-            }
+            spriteLen = strlen(entity->sprite[0]);
+            drawEntitySpriteLayer(entity->sprite[0], spriteLen, entity->len.x);
+            continue;
         }
 
         // if sprite have many sprite layers
-        printf("%s", entity->sprite[y]);
+        drawEntitySpriteLayer(entity->sprite[y], spriteLen, entity->len.x);
     }
     screenSetNormal();
 }
@@ -162,17 +172,6 @@ void showEntityNoMove(Entity *entity)
  */
 void showEntityNoStop(Entity *entity)
 {
-    // clear drawn sprite
-    for (int y = 0; y < entity->len.y; y++)
-    {
-        for (int x = 0; x < entity->len.x; x++)
-        {
-            // limpa pixel por pixel
-            screenGotoxy(entity->pos.x + x, entity->pos.y + y);
-            printf(" ");
-        }
-    }
-
     // apply velocity
     entity->pos.x += entity->vel.x;
     entity->pos.y += entity->vel.y;
@@ -181,25 +180,19 @@ void showEntityNoStop(Entity *entity)
     for (int y = 0; y < entity->len.y; y++)
     {
         screenGotoxy(entity->pos.x, entity->pos.y + y);
+        // get sprite size in x axes
+        int spriteLen = strlen(entity->sprite[y]);
 
         // if sprite have only one sprite layer
         if (entity->sprite[y][0] == '\0')
         {
-            printf("%s", entity->sprite[0]);
-        }
-
-        int spriteLen = strlen(entity->sprite[y]);
-        // if spritelen is smaller than entity len x, alto fill
-        if (spriteLen > 0 && spriteLen < entity->len.x)
-        {
-            for (int x = 0; x < (entity->len.x / spriteLen) - 1; x++)
-            {
-                printf("%s", entity->sprite[y]);
-            }
+            spriteLen = strlen(entity->sprite[0]);
+            drawEntitySpriteLayer(entity->sprite[0], spriteLen, entity->len.x);
+            continue;
         }
 
         // if sprite have many sprite layers
-        printf("%s", entity->sprite[y]);
+        drawEntitySpriteLayer(entity->sprite[y], spriteLen, entity->len.x);
     }
     screenSetNormal();
 }
@@ -212,7 +205,17 @@ void showEntities(EntityArray *entities)
 {
     for (int i = 0; i < entities->len; i++)
     {
-        showEntity(&entities->entities[i]);
+        Entity *entity = &entities->entities[i];
+
+        // caso entitidade não se mova
+        if (entity->vel.x == 0 && entity->vel.y == 0)
+        {
+            showEntityNoMove(entity);
+            continue;
+        }
+
+        // entitade que se move
+        showEntity(entity);
     }
 }
 
@@ -247,6 +250,12 @@ void checkCollision(Entity *entity, EntityArray *entities)
         Vector2D other_entity_area = {
             other_entity->pos.x + other_entity->len.x,
             other_entity->pos.y + other_entity->len.y};
+
+        // if other entity has no collision type
+        if (other_entity->collision.collisionType == collisionNone){
+            other_entity->collision.isColliding = 0;
+            continue;
+        }
 
         // if not is collision, continue
         /**
