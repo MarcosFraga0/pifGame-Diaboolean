@@ -12,6 +12,6 @@
 #include "handlers/timeHandler.h"
 #include "handlers/screenHandler.h"
 
-void initSecondRoom(Entity *player);
+void initSecondRoom(Entity *player, int *playerLife);
 
 #endif

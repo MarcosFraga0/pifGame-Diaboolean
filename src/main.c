@@ -32,6 +32,8 @@ int main()
     WHITE
   };
 
+  int playerLife = 3;
+
   // init config
   screenInit(1);
   keyboardInit();
@@ -39,11 +41,12 @@ int main()
   screenUpdate();
 
   // game rooms
-  /* initFirstRoom(&player);
+  initFirstRoom(&player, &playerLife);
   clearScreen();
-  initSecondRoom(&player);
-  clearScreen(); */
-  initFourRoom(&player);
+  initSecondRoom(&player, &playerLife);
+  clearScreen();
+  initFourRoom(&player, &playerLife);
+  clearScreen();
 
   // stop config
   screenDestroy();

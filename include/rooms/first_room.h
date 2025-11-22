@@ -15,6 +15,6 @@
 #include "handlers/keyboardHandler.h"
 #include "entities/entity.h"
 
-void initFirstRoom(Entity *player);
+void initFirstRoom(Entity *player, int *playerLife);
 
 #endif

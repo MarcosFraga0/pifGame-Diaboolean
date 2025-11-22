@@ -7,19 +7,27 @@
 
 #include "rooms/four_room.h"
 
+#define TRAP_TICK 2
+
 void lifeAnimation(Entity *entity);
 
 /**
  * @brief Init four room logic
  * @param {Entity *player} player principal
+ * @param {int playerLife} vida do player principal
  */
-void initFourRoom(Entity *player)
+void initFourRoom(Entity *player, int *playerLife)
 {
-    screenInit(1);
+    // initial player pos and reset player
     Vector2D playerInitialPos = {MINX + 1, MINY + 5};
     resetEntity(player, playerInitialPos);
+
+    // set player steps
     const int playerStep = 2;
+
+    // set don't show secret room and stop trap timer
     int showSecretRoom = 0;
+    int trap_timer = 0;
 
     Entity elementsContent[] =
         {
@@ -48,7 +56,7 @@ void initFourRoom(Entity *player)
              WHITE,
              WHITE},
             // fire trap
-            {{0, -20},
+            {{0, -10},
              {0, 0},
              {MAXX * 2, 0},
              {0, damage},
@@ -73,7 +81,7 @@ void initFourRoom(Entity *player)
          BROWN},
         {{MINX, 8},
          {0, 0},
-         {20, MAXY - 8},
+         {20, MAXY - 7},
          {0, bearer},
          {"-"},
          WHITE,
@@ -94,7 +102,7 @@ void initFourRoom(Entity *player)
          BROWN},
         {{MINX + 20, MAXY - 9 - MINY},
          {0, 0},
-         {MAXX - 20, MAXY - (MAXY - 9 - MINY)},
+         {MAXX - 20, MAXY - (MAXY - 10 - MINY)},
          {0, bearer},
          {"-"},
          WHITE,
@@ -154,6 +162,8 @@ void initFourRoom(Entity *player)
         secretBearersLen,
         secretBearersContent};
 
+    // show entities layers
+    screenInit(1);
     showEntity(player);
     showEntities(&bearersArray);
     showEntities(&elementsArray);
@@ -165,18 +175,23 @@ void initFourRoom(Entity *player)
     {
         if (keyhit())
         {
-            ch = getchar();
+            ch = readch();
             setEntityVel(player, keyboardVelHandler(ch, playerStep));
             checkCollision(player, &elementsArray);
             checkCollision(player, showSecretRoom ? &secretBearersArray : &bearersArray);
         }
 
-        if (timerTimeOver() == 1)
+        if (timerTimeOver())
         {
+            // reset char handle
+            ch = 0;
+
+            // show elements and player
             showEntities(&elementsArray);
             showEntity(player);
+            screenUpdate();
 
-            // if get item, update entities
+            // if player takes in secret door, show secret room and update entities
             if (elementsContent[2].collision.isColliding == 1)
             {
                 showSecretRoom = 1;
@@ -184,6 +199,7 @@ void initFourRoom(Entity *player)
                 strcpy(elementsContent[0].sprite[0], "☕");
                 elementsContent[0].bg = WHITE;
                 // set secret door as collisionNone
+                strcpy(elementsContent[2].sprite[0], " ");
                 elementsContent[2].collision.collisionType = collisionNone;
 
                 showEntities(&secretBearersArray);
@@ -195,35 +211,40 @@ void initFourRoom(Entity *player)
             // if get item, show animation
             if (elementsContent[0].collision.isColliding == 1)
             {
-                strcpy(elementsContent[0].sprite[0], "+♥");
+                strcpy(elementsContent[0].sprite[0], " ");
+                elementsContent[0].collision.isColliding = 0;
                 elementsContent[0].collision.collisionType = collisionNone;
-                lifeAnimation(&elementsContent[0]);
+
+                playerLife++;
+                playerAddLife(player);
+                screenUpdate();
             }
 
             // if get item, activate trap
             if (elementsContent[0].collision.collisionType == collisionNone)
             {
+                trap_timer++;
+            }
+
+            if (trap_timer == TRAP_TICK)
+            {
+                // set trap
                 elementsContent[3].len.y = 1;
-                elementsContent[3].vel.y = 1;
+                // continua descendo enquanto não chega ao fim da tela
+                elementsContent[3].vel.y = elementsContent[3].pos.y < MAXY ? 1 : 0;
+                trap_timer = 0;
+                checkCollision(player, &elementsArray);
+            }
+
+            if (elementsContent[3].collision.isColliding)
+            {
+                playerLife--;
+                playerLoseLife(player);
+
+                // reset room
+                initFourRoom(player, playerLife);
+                return;
             }
         }
     }
-}
-
-void lifeAnimation(Entity *entity)
-{
-    entity->pos.y--;
-
-    entity->fg = RED;
-    showEntityNoMove(entity);
-    screenUpdate();
-    setSleep(5);
-    entity->fg = WHITE;
-    showEntityNoMove(entity);
-    screenUpdate();
-    setSleep(5);
-
-    strcpy(entity->sprite[0], "  ");
-    showEntityNoMove(entity);
-    screenUpdate();
 }

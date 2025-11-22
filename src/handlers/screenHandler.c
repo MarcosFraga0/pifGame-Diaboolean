@@ -37,7 +37,7 @@ void clearScreen()
     if (timerTimeOver() == 1)
     {
       for (int y = 0; y < i; y++){
-        for (int x = 0; x < MAXX; x++)
+        for (int x = 0; x < MAXX + 2; x++)
         {
           screenGotoxy(x, y);
           printf(" ");

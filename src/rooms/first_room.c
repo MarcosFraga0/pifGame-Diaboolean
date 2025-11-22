@@ -12,8 +12,9 @@
 /**
  * @brief Init battle room and logic
  * @param {Entity *player} player principal
+ * @param {int *playerLife} vida do player
  */
-void initFirstRoom(Entity *player)
+void initFirstRoom(Entity *player, int *playerLife)
 {
     // initial player position
     player->collision.isColliding = 0;
