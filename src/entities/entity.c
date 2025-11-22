@@ -172,6 +172,8 @@ void showEntityNoMove(Entity *entity)
  */
 void showEntityNoStop(Entity *entity)
 {
+    // clear drawn sprite
+    clearEntitySprite(entity);
     // apply velocity
     entity->pos.x += entity->vel.x;
     entity->pos.y += entity->vel.y;

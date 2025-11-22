@@ -102,7 +102,7 @@ void initFourRoom(Entity *player, int *playerLife)
          BROWN},
         {{MINX + 20, MAXY - 9 - MINY},
          {0, 0},
-         {MAXX - 20, MAXY - (MAXY - 10 - MINY)},
+         {MAXX - MINX - 20, MAXY - (MAXY - 10 - MINY)},
          {0, bearer},
          {"-"},
          WHITE,

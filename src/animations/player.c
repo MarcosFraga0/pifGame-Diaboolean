@@ -20,11 +20,8 @@ void playerLoseLife(Entity *player)
     printText("💔", player->pos.x, player->pos.y - 1, WHITE, WHITE);
     screenUpdate();
     setSleep(15);
-    /* setSleep(15);
-    screenClear();
-    screenInit(1);
-    printText("VOCÊ PERDEU!", MAXX / 2 - 6, MAXY / 2, RED, WHITE);
-    screenUpdate(); */
+    printText("  ", player->pos.x, player->pos.y - 1, WHITE, WHITE);
+    screenUpdate();
 }
 
 void playerAddLife(Entity *player)

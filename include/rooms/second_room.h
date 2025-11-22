@@ -8,6 +8,7 @@
 #ifndef SECOND_ROOM_H
 #define SECOND_ROOM_H
  
+#include "animations/player.h"
 #include "rooms/battle_room.h"
 #include "handlers/timeHandler.h"
 #include "handlers/screenHandler.h"

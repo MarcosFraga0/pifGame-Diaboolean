@@ -33,7 +33,7 @@ void initSecondRoom(Entity *player, int *playerLife)
     Entity life = {
         {MINX + 2, MINY + 1},
         {0, 0},
-        {12, 1},
+        {*playerLife * 4, 1},
         {0, collisionNone},
         {"♥ "},
         RED,
@@ -152,7 +152,7 @@ void initSecondRoom(Entity *player, int *playerLife)
     char ch = ' ';
 
     // show text after that start battle
-    showTextBeforeBattle();
+    /* showTextBeforeBattle(); */
 
     // reset player and set initial position
     resetEntity(player, initial);
@@ -178,7 +178,7 @@ void initSecondRoom(Entity *player, int *playerLife)
             checkCollision(player, &bearers);
         }
 
-        if (timerTimeOver() == 1)
+        if (timerTimeOver())
         {
             showBattleRoom(battleGrid, initialGridPos);
 
@@ -210,8 +210,9 @@ void initSecondRoom(Entity *player, int *playerLife)
             // if project collide with player, player will lose life point;
             if (player->collision.collisionType == damage)
             {
-                *playerLife--;
+                *playerLife -= 1;
                 life.len.x = *playerLife * 4;
+                
             }
 
             showEntityNoStop(project);
@@ -226,7 +227,12 @@ void initSecondRoom(Entity *player, int *playerLife)
 
     if (*playerLife == 0)
     {
-        
+        playerLoseLife(player);
+        printText("VOCÊ PERDEU!", MAXX/2 - 6, MAXY / 2 - 1, RED, WHITE);
+        screenUpdate();
+        setSleep(15);
+        printText("            ", MAXX/2 - 6, MAXY / 2 - 1, WHITE, WHITE);
+        screenUpdate();
     }
 
     else
