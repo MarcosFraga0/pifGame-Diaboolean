@@ -15,10 +15,9 @@
 #include "handlers/keyboardHandler.h"
 #include "rooms/first_room.h"
 #include "rooms/second_room.h"
+#include "rooms/four_room.h"
 
 #define CLOCK 100
-
-void clearScreen();
 
 int main()
 {
@@ -33,6 +32,8 @@ int main()
     WHITE
   };
 
+  int playerLife = 3;
+
   // init config
   screenInit(1);
   keyboardInit();
@@ -40,34 +41,17 @@ int main()
   screenUpdate();
 
   // game rooms
-  initFirstRoom(&player);
+  initFirstRoom(&player, &playerLife);
   clearScreen();
-  initSecondRoom(&player);
+  initSecondRoom(&player, &playerLife);
+  clearScreen();
+  initFourRoom(&player, &playerLife);
   clearScreen();
 
   // stop config
   screenDestroy();
   keyboardDestroy();
   timerDestroy();
+  
   return 0;
-}
-
-void clearScreen()
-{
-  int i = 0;
-  while (i <= MAXY + 2)
-  {
-    if (timerTimeOver() == 1)
-    {
-      for (int y = 0; y < i; y++){
-        for (int x = 0; x < MAXX; x++)
-        {
-          screenGotoxy(x, y);
-          printf(" ");
-        }
-      }
-      screenUpdate();
-      i+=2;
-    }
-  }
 }

@@ -17,8 +17,9 @@ void secondRoomEnemy(Entity *enemy, Entity *project, Vector2D *gridVertex, Vecto
 /**
  * @brief Init battle room and logic
  * @param {Entity *player} player principal
+ * @param {int *playerLife} vida do player
  */
-void initSecondRoom(Entity *player)
+void initSecondRoom(Entity *player, int *playerLife)
 {
     screenInit(1);
 
@@ -27,13 +28,12 @@ void initSecondRoom(Entity *player)
     Vector2D initial = {initialGridPos.x + 2, initialGridPos.y + 1};
     int step = 6;
     int counterTickEnemy = 0;
-    int playerLife = 3;
 
     // player life
     Entity life = {
         {MINX + 2, MINY + 1},
         {0, 0},
-        {12, 1},
+        {*playerLife * 4, 1},
         {0, collisionNone},
         {"♥ "},
         RED,
@@ -152,7 +152,7 @@ void initSecondRoom(Entity *player)
     char ch = ' ';
 
     // show text after that start battle
-    showTextBeforeBattle();
+    /* showTextBeforeBattle(); */
 
     // reset player and set initial position
     resetEntity(player, initial);
@@ -165,7 +165,7 @@ void initSecondRoom(Entity *player)
 
     // loop logic battle room
     while (
-        !endBattleCondition(battleGrid, battleGridCondition) && playerLife > 0)
+        !endBattleCondition(battleGrid, battleGridCondition) && *playerLife > 0)
     {
         if (keyhit())
         {
@@ -178,7 +178,7 @@ void initSecondRoom(Entity *player)
             checkCollision(player, &bearers);
         }
 
-        if (timerTimeOver() == 1)
+        if (timerTimeOver())
         {
             showBattleRoom(battleGrid, initialGridPos);
 
@@ -210,8 +210,9 @@ void initSecondRoom(Entity *player)
             // if project collide with player, player will lose life point;
             if (player->collision.collisionType == damage)
             {
-                playerLife--;
-                life.len.x = playerLife * 4;
+                *playerLife -= 1;
+                life.len.x = *playerLife * 4;
+                
             }
 
             showEntityNoStop(project);
@@ -224,19 +225,13 @@ void initSecondRoom(Entity *player)
     screenInit(1);
     screenUpdate();
 
-    if (playerLife == 0)
+    if (*playerLife == 0)
     {
-        // player lose animation
-        printText("♥️", player->pos.x, player->pos.y, WHITE, WHITE);
-        setSleep(5);
-        printText(" ", player->pos.x, player->pos.y, WHITE, WHITE);
-        printText("♥️", player->pos.x, player->pos.y - 1, WHITE, WHITE);
-        setSleep(10);
-        printText("💔", player->pos.x, player->pos.y - 1, WHITE, WHITE);
+        playerLoseLife(player);
+        printText("VOCÊ PERDEU!", MAXX/2 - 6, MAXY / 2 - 1, RED, WHITE);
+        screenUpdate();
         setSleep(15);
-        screenClear();
-        screenInit(1);
-        printText("VOCÊ PERDEU!", MAXX / 2 - 6, MAXY / 2, RED, WHITE);
+        printText("            ", MAXX/2 - 6, MAXY / 2 - 1, WHITE, WHITE);
         screenUpdate();
     }
 

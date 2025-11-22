@@ -9,7 +9,10 @@
 #define SCREEN_HANDLER_H
 
 #include "screen.h"
+#include "timer.h"
 
 void printText(char *text, int x, int y, screenColor fg, screenColor bg);
+
+void clearScreen();
 
 #endif

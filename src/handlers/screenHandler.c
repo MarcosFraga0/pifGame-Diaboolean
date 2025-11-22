@@ -25,3 +25,26 @@ void printText(char *text, int x, int y, screenColor fg, screenColor bg)
     screenSetNormal();
     screenUpdate();
 }
+
+/**
+ * @brief limpa a tela com uma animação
+ */
+void clearScreen()
+{
+  int i = 0;
+  while (i <= MAXY + 2)
+  {
+    if (timerTimeOver() == 1)
+    {
+      for (int y = 0; y < i; y++){
+        for (int x = 0; x < MAXX; x++)
+        {
+          screenGotoxy(x, y);
+          printf(" ");
+        }
+      }
+      screenUpdate();
+      i+=2;
+    }
+  }
+}
