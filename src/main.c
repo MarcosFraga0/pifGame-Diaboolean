@@ -41,10 +41,10 @@ int main()
   screenUpdate();
 
   // game rooms
-  initFirstRoom(&player, &playerLife);
+  /* initFirstRoom(&player, &playerLife);
   clearScreen();
   initSecondRoom(&player, &playerLife);
-  clearScreen();
+  clearScreen(); */
   initFourRoom(&player, &playerLife);
   clearScreen();
 

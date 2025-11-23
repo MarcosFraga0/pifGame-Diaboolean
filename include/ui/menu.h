@@ -11,4 +11,11 @@
 #include "screen.h"
 #include "keyboard.h"
 
+#include "handlers/timeHandler.h"
+#include "handlers/screenHandler.h"
+#include "types/types2d.h"
+#include "handlers/menuHandler.h"
+
+void showMenu(char *ch);
+
 #endif
