@@ -200,6 +200,7 @@ void initFourRoom(Entity *player, int *playerLife)
                 elementsContent[0].bg = WHITE;
                 // set secret door as collisionNone
                 strcpy(elementsContent[2].sprite[0], " ");
+                elementsContent[2].collision.isColliding = 0;
                 elementsContent[2].collision.collisionType = collisionNone;
 
                 showEntities(&secretBearersArray);
@@ -208,6 +209,8 @@ void initFourRoom(Entity *player, int *playerLife)
                 screenUpdate();
 
                 showDialogBox(player->sprite[0], "Nerd", "OH! Uma sala secreta.");
+                showEntities(&secretBearersArray);
+                screenUpdate();
             }
 
             // if get item, show animation
