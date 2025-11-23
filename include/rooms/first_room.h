@@ -15,6 +15,7 @@
 #include "handlers/keyboardHandler.h"
 #include "entities/entity.h"
 #include "ui/dialog_box.h"
+#include "ui/menu.h"
 
 void initFirstRoom(Entity *player, int *playerLife);
 

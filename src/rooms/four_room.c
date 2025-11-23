@@ -56,7 +56,7 @@ void initFourRoom(Entity *player, int *playerLife)
              WHITE,
              WHITE},
             // fire trap
-            {{0, -10},
+            {{MINX, -10},
              {0, 0},
              {MAXX * 2, 0},
              {0, damage},
@@ -180,13 +180,16 @@ void initFourRoom(Entity *player, int *playerLife)
             checkCollision(player, &elementsArray);
             checkCollision(player, showSecretRoom ? &secretBearersArray : &bearersArray);
         }
-
+        
         if (timerTimeOver())
         {
+            showMenu(&ch);
             // reset char handle
             ch = 0;
-
+            
             // show elements and player
+            screenInit(1);
+            showEntities(showSecretRoom ? &secretBearersArray : &bearersArray);
             showEntities(&elementsArray);
             showEntity(player);
             screenUpdate();

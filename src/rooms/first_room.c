@@ -144,6 +144,7 @@ void initFirstRoom(Entity *player, int *playerLife)
 
         if (timerTimeOver() == 1)
         {
+            showMenu(&ch);
             showEntities(&entityArray);
             showEntity(player);
             screenUpdate();

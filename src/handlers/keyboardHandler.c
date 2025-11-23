@@ -5,6 +5,7 @@
  * @brief generic handlers
  */
 
+#include <ctype.h>
 #include "handlers/keyboardHandler.h"
 
 /**
@@ -12,7 +13,7 @@
  */
 Action keyboardActionHandler(char ch){
   Action action = actionNone;
-  switch (ch)
+  switch (tolower(ch))
   {
   case 'k':
     action = setTrue;
@@ -35,7 +36,7 @@ Action keyboardActionHandler(char ch){
  */
 Vector2D keyboardVelHandler(char ch, int step) {
   Vector2D vel = {0, 0};
-  switch (ch) {
+  switch (tolower(ch)) {
   case 'w':
     vel.y = -1 * step / 2;
     break;
