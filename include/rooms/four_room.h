@@ -15,6 +15,7 @@
 #include "handlers/keyboardHandler.h"
 #include "handlers/timeHandler.h"
 #include "entities/entity.h"
+#include "ui/dialog_box.h"
 
 void initFourRoom(Entity *player, int *playerLife);
 

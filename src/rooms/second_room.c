@@ -10,8 +10,6 @@
 
 #define ENEMY_TICK 2
 
-void showTextBeforeBattle();
-
 void secondRoomEnemy(Entity *enemy, Entity *project, Vector2D *gridVertex, Vector2D playerPos);
 
 /**
@@ -21,8 +19,6 @@ void secondRoomEnemy(Entity *enemy, Entity *project, Vector2D *gridVertex, Vecto
  */
 void initSecondRoom(Entity *player, int *playerLife)
 {
-    screenInit(1);
-
     // configs
     Vector2D initialGridPos = {MAXX / 2 - 12, 6};
     Vector2D initial = {initialGridPos.x + 2, initialGridPos.y + 1};
@@ -157,11 +153,32 @@ void initSecondRoom(Entity *player, int *playerLife)
     // reset player and set initial position
     resetEntity(player, initial);
 
-    // init show game
     showBattleRoom(battleGrid, initialGridPos);
-    showEntity(player);
-    showEntities(&bearers);
+    // init show game
+    screenInit(1);
+    printText("🤓", MAXX / 2 - 2, MAXY / 2, WHITE, WHITE);
+    printText("👺", MAXX / 2 + 2, MAXY / 2, WHITE, WHITE);
     screenUpdate();
+
+    // dialog pre-battle
+    setSleep(5);
+    showDialogBox("🧠", "Celebro", "AH NAO, mais um monitor de PIF!!!");
+    printText(" ", MAXX / 2 + 2, MAXY / 2, WHITE, WHITE);
+    printText("👺", MAXX / 2 + 3, MAXY / 2, WHITE, WHITE);
+    screenUpdate();
+    setSleep(1);
+    printText(" ", MAXX / 2 + 3, MAXY / 2, WHITE, WHITE);
+    printText("👺", MAXX / 2 + 1, MAXY / 2, WHITE, WHITE);
+    screenUpdate();
+    setSleep(2);
+    printText(" ", MAXX / 2 + 1, MAXY / 2, WHITE, WHITE);
+    printText("👺", MAXX / 2 + 2, MAXY / 2, WHITE, WHITE);
+    screenUpdate();
+    showDialogBox(enemy->sprite[0], "Monitor de PIF", "Voce nunca vai passar em PIF, JOVEM MANCEBO! HUAHUAHUA");
+    printText(" ", MAXX / 2 - 2, MAXY / 2, WHITE, WHITE);
+    printText("😓💨", MAXX / 2 - 4, MAXY / 2, WHITE, WHITE);
+    screenUpdate();
+    showDialogBox(player->sprite[0], "Nerd", "**voce suspira de medo**");
 
     // loop logic battle room
     while (
@@ -212,7 +229,6 @@ void initSecondRoom(Entity *player, int *playerLife)
             {
                 *playerLife -= 1;
                 life.len.x = *playerLife * 4;
-                
             }
 
             showEntityNoStop(project);
@@ -228,11 +244,33 @@ void initSecondRoom(Entity *player, int *playerLife)
     if (*playerLife == 0)
     {
         playerLoseLife(player);
-        printText("VOCÊ PERDEU!", MAXX/2 - 6, MAXY / 2 - 1, RED, WHITE);
+        setSleep(5);
         screenUpdate();
-        setSleep(15);
-        printText("            ", MAXX/2 - 6, MAXY / 2 - 1, WHITE, WHITE);
+        screenClear();
+        screenInit(1);
         screenUpdate();
+        setSleep(5);
+        printText("😵", MAXX / 2 - 2, MAXY / 2, WHITE, WHITE);
+        printText("👺", MAXX / 2 + 2, MAXY / 2, WHITE, WHITE);
+        screenUpdate();
+        showDialogBox("🧠", "Celebro", "Lasquei-me");
+        printText(" ", MAXX / 2 + 2, MAXY / 2, WHITE, WHITE);
+        printText("👺", MAXX / 2 + 3, MAXY / 2, WHITE, WHITE);
+        screenUpdate();
+        setSleep(1);
+        printText(" ", MAXX / 2 + 3, MAXY / 2, WHITE, WHITE);
+        printText("👺", MAXX / 2 + 1, MAXY / 2, WHITE, WHITE);
+        screenUpdate();
+        setSleep(2);
+        printText(" ", MAXX / 2 + 1, MAXY / 2, WHITE, WHITE);
+        printText("👺", MAXX / 2 + 2, MAXY / 2, WHITE, WHITE);
+        screenUpdate();
+        showDialogBox(enemy->sprite[0], "Monitor de PIF", "Voce perdeu! Vai ter que pagar a cadeira de novo HUAHUAHUA");
+        clearScreen();
+
+        *playerLife = 3;
+        initSecondRoom(player, playerLife);
+        return;
     }
 
     else
@@ -241,70 +279,34 @@ void initSecondRoom(Entity *player, int *playerLife)
         showBattleRoom(battleGrid, initialGridPos);
         Vector2D playerGridPos = getGridPos(player, gridVertex, initial, step);
         actionRoom(action, battleGrid, playerGridPos);
-        setSleep(15);
+        setSleep(10);
         screenClear();
         screenInit(1);
-        printText("VOCÊ GANHOU!", MAXX / 2 - 6, MAXY / 2, GREEN, WHITE);
         screenUpdate();
+        setSleep(5);
+
+        printText("🤓", MAXX / 2 - 2, MAXY / 2, WHITE, WHITE);
+        screenUpdate();
+        printText(" ", MAXX / 2 + 2, MAXY / 2, WHITE, WHITE);
+        printText("👺", MAXX / 2 + 3, MAXY / 2, WHITE, WHITE);
+        screenUpdate();
+        setSleep(1);
+        printText(" ", MAXX / 2 + 3, MAXY / 2, WHITE, WHITE);
+        printText("👺", MAXX / 2 + 1, MAXY / 2, WHITE, WHITE);
+        screenUpdate();
+        setSleep(2);
+        printText(" ", MAXX / 2 + 1, MAXY / 2, WHITE, WHITE);
+        printText("👺", MAXX / 2 + 2, MAXY / 2, WHITE, WHITE);
+        screenUpdate();
+        showDialogBox(enemy->sprite[0], "Monitor de PIF", "Voce me venceu dessa vez, mas nao passara pelo meu chefe The Big Dig");
+        showDialogBox("🧠", "Celebro", "Papo de perdedor hehehe");
     }
 
-    setSleep(20);
+    setSleep(10);
 
     // destroy room grids
     destroyGrid(battleGrid);
     destroyGrid(battleGridCondition);
-}
-
-void showTextBeforeBattle()
-{
-    printText("IMPORTANTE!!!", MAXX / 2 - 6, MAXY / 2, WHITE, WHITE);
-    setSleep(10);
-    printText("             ", MAXX / 2 - 6, MAXY / 2, BLUE, WHITE);
-
-    printText("Na NEGAÇÃO (¬), ao colocar um valor de um lado", MAXX / 2 - 23, MAXY / 2 - 1, LIGHTGRAY, WHITE);
-    printText("obteremos o valor oposto do outro lado.", MAXX / 2 - 20, MAXY / 2, LIGHTGRAY, WHITE);
-
-    printText("-", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("--", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("---", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("----", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("-----", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("------", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("-------", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("--------", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("---------", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("----------", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-    setSleep(10);
-    printText("                                              ", MAXX / 2 - 23, MAXY / 2 - 1, LIGHTGRAY, WHITE);
-    printText("                                       ", MAXX / 2 - 20, MAXY / 2, LIGHTGRAY, WHITE);
-    printText("          ", MAXX / 2 - 5, MAXY / 2 + 3, GREEN, WHITE);
-
-    printText("BATALHA? 🤔", MAXX / 2 - 6, MAXY / 2, BLUE, WHITE);
-    setSleep(20);
-    // clear text
-    printText("           ", MAXX / 2 - 6, MAXY / 2, WHITE, WHITE);
-
-    // contagem regressiva
-    printText("1", MAXX / 2 - 1, MAXY / 2, BLUE, WHITE);
-    setSleep(10);
-    printText("2", MAXX / 2 - 1, MAXY / 2, BLUE, WHITE);
-    setSleep(10);
-    printText("3", MAXX / 2 - 1, MAXY / 2, BLUE, WHITE);
-    setSleep(10);
-    // contagem regressiva
-    printText("VAI!!!", MAXX / 2 - 3, MAXY / 2, BLUE, WHITE);
-    setSleep(5);
-    // clear text
-    printText("      ", MAXX / 2 - 3, MAXY / 2, WHITE, WHITE);
 }
 
 void secondRoomEnemy(Entity *enemy, Entity *project, Vector2D *gridVertex, Vector2D playerPos)

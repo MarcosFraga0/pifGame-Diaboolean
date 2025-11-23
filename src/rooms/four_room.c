@@ -206,6 +206,8 @@ void initFourRoom(Entity *player, int *playerLife)
                 showEntities(&elementsArray);
                 showEntity(player);
                 screenUpdate();
+
+                showDialogBox(player->sprite[0], "Nerd", "OH! Uma sala secreta.");
             }
 
             // if get item, show animation
@@ -215,8 +217,14 @@ void initFourRoom(Entity *player, int *playerLife)
                 elementsContent[0].collision.isColliding = 0;
                 elementsContent[0].collision.collisionType = collisionNone;
 
+                
                 playerLife++;
                 playerAddLife(player);
+
+                showDialogBox("🧠", "Celebro", "Aee, encontrei mais cafe do cesar! **que som estranho?? ");
+
+                showDialogBox("⁉️", "Barulho", "Voce ativou alguma armadilha, CORRA!!!");
+                showEntities(&secretBearersArray);
                 screenUpdate();
             }
 
