@@ -200,11 +200,16 @@ void initFourRoom(Entity *player, int *playerLife)
                 elementsContent[0].bg = WHITE;
                 // set secret door as collisionNone
                 strcpy(elementsContent[2].sprite[0], " ");
+                elementsContent[2].collision.isColliding = 0;
                 elementsContent[2].collision.collisionType = collisionNone;
 
                 showEntities(&secretBearersArray);
                 showEntities(&elementsArray);
                 showEntity(player);
+                screenUpdate();
+
+                showDialogBox(player->sprite[0], "Nerd", "OH! Uma sala secreta.");
+                showEntities(&secretBearersArray);
                 screenUpdate();
             }
 
@@ -215,8 +220,14 @@ void initFourRoom(Entity *player, int *playerLife)
                 elementsContent[0].collision.isColliding = 0;
                 elementsContent[0].collision.collisionType = collisionNone;
 
+                
                 playerLife++;
                 playerAddLife(player);
+
+                showDialogBox("🧠", "Celebro", "Aee, encontrei mais cafe do cesar! **que som estranho?? ");
+
+                showDialogBox("⁉️", "Barulho", "Voce ativou alguma armadilha, CORRA!!!");
+                showEntities(&secretBearersArray);
                 screenUpdate();
             }
 

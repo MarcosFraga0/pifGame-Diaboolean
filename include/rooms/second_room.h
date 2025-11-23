@@ -12,6 +12,7 @@
 #include "rooms/battle_room.h"
 #include "handlers/timeHandler.h"
 #include "handlers/screenHandler.h"
+#include "ui/dialog_box.h"
 
 void initSecondRoom(Entity *player, int *playerLife);
 

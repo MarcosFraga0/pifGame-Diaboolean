@@ -8,10 +8,7 @@
 #include "screen.h"
 
 void screenDrawBorders() 
-{
-    char hbc = BOX_HLINE;
-    char vbc = BOX_VLINE;
-    
+{   
     screenClear();
     screenBoxEnable();
     
@@ -21,7 +18,7 @@ void screenDrawBorders()
     for (int i=MINX+1; i<MAXX; i++)
     {
         screenGotoxy(i, MINY);
-        printf("%c", hbc);
+        printf("%c", BOX_HLINE);
     }
     screenGotoxy(MAXX, MINY);
     printf("%c", BOX_UPRIGHT);
@@ -29,9 +26,9 @@ void screenDrawBorders()
     for (int i=MINY+1; i<MAXY; i++)
     {
         screenGotoxy(MINX, i);
-        printf("%c", vbc);
+        printf("%c", BOX_VLINE);
         screenGotoxy(MAXX, i);
-        printf("%c", vbc);
+        printf("%c", BOX_VLINE);
     }
 
     screenGotoxy(MINX, MAXY);
@@ -39,7 +36,7 @@ void screenDrawBorders()
     for (int i=MINX+1; i<MAXX; i++)
     {
         screenGotoxy(i, MAXY);
-        printf("%c", hbc);
+        printf("%c", BOX_HLINE);
     }
     screenGotoxy(MAXX, MAXY);
     printf("%c", BOX_DWNRIGHT);
