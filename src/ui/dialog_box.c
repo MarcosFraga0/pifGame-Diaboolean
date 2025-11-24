@@ -10,6 +10,7 @@
 #include "ui/dialog_box.h"
 
 const int padding = 2;
+const int frameRate = 70;
 
 // set dialog box props
 Vector2D len = {MAXX, MAXY / 2 - (MAXY / 2) / 2 - padding};
@@ -154,6 +155,8 @@ void typingDialogBox(char *text, int nameLen)
 
     char ch = 0;
 
+    timerUpdateTimer(frameRate);
+
     while (text[index] != EOF && text[index] != '\0')
     {
         if (maxTextLen == x)
@@ -184,6 +187,8 @@ void typingDialogBox(char *text, int nameLen)
         x++;
         index++;
     }
+
+    timerUpdateTimer(100);
 }
 
 /**

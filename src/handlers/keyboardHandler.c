@@ -15,13 +15,13 @@ Action keyboardActionHandler(char ch){
   Action action = actionNone;
   switch (tolower(ch))
   {
-  case 'k':
+  case 'v':
     action = setTrue;
     break;
-  case 'l':
+  case 'f':
     action = setFalse;
     break;
-  case 'j':
+  case 'r':
     action = reset;
     break;
   default:

@@ -1,27 +1,25 @@
 /**
  * @file first_room.c
- * @author Matheus de freitas
+ * @author Joanna
  * @date Nov, 10th 2025
  * @details first game room
  */
 
-
 #include <stdio.h>
 #include "rooms/first_room.h"
-
-void animationIntro(Entity *player);
 
 /**
  * @brief Init battle room and logic
  * @param {Entity *player} player principal
  * @param {int *playerLife} vida do player
  */
-void initFirstRoom(Entity *player, int *playerLife){
+void initFirstRoom(Entity *player, int *playerLife)
+{
     // initial player position
     player->collision.isColliding = 0;
     player->collision.collisionType = collisionNone;
     player->pos.x = MAXX / 2;
-    player->pos.y = MAXY - MINY;
+    player->pos.y = MAXY / 2;
 
     int showPreRoom = 1;
 
@@ -36,11 +34,11 @@ void initFirstRoom(Entity *player, int *playerLife){
          WHITE},
         // notebook
         {{MAXX / 2 - 16, MAXY / 2 + 2},
-         {0,0},
-         {1,1},
+         {0, 0},
+         {1, 1},
          {0, bearer},
          {"💻"},
-         WHITE, 
+         WHITE,
          WHITE},
         // bearers
         // top
@@ -51,7 +49,7 @@ void initFirstRoom(Entity *player, int *playerLife){
          {"-"},
          WHITE,
          BROWN},
-         // bottom
+        // bottom
         {{MAXX / 2 - 20, MAXY / 2 + 4},
          {0, 0},
          {40, 1},
@@ -77,58 +75,78 @@ void initFirstRoom(Entity *player, int *playerLife){
          BROWN},
         // notebook
         {{MAXX / 2 - 16, MAXY / 2 - 2},
-         {0,0},
-         {1,1},
+         {0, 0},
+         {1, 1},
          {0, bearer},
          {"💻"},
-         WHITE, 
+         WHITE,
+         WHITE},
+        {{MAXX / 2 - 16, MAXY / 2 - 1},
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"😪"},
+         WHITE,
          WHITE},
         // book
         {{MAXX / 2 + 14, MAXY / 2 - 2},
-         {0,0},
-         {1,1},
+         {0, 0},
+         {1, 1},
          {0, bearer},
          {"📖"},
-         WHITE, 
+         WHITE,
+         WHITE},
+        {{MAXX / 2 + 14, MAXY / 2 - 1},
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"🤧"},
+         WHITE,
          WHITE},
         // book
         {{MAXX / 2 + 14, MAXY / 2 + 2},
-         {0,0},
-         {1,1},
+         {0, 0},
+         {1, 1},
          {0, bearer},
          {"💻"},
-         WHITE, 
+         WHITE,
          WHITE},
-         {{MAXX / 2 - 2, MAXY / 2 - 3},
-        {0,0},
-        {1,1},
-        {0, bearer},
-        {"🤖"},
-        WHITE,
-        WHITE},
+        {{MAXX / 2 + 14, MAXY / 2 + 3},
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"😞"},
+         WHITE,
+         WHITE},
+        {{MAXX / 2 - 2, MAXY / 2 - 3},
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"🤖"},
+         WHITE,
+         WHITE},
         /*TEACHER 2 / BIG LHERME*/
         {{MAXX / 2 + 2, MAXY / 2 - 3},
-        {0,0},
-        {1,1},
-        {0, bearer},
-        {"🧑"},
-        WHITE,
-        WHITE}
-    };
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"🧑"},
+         WHITE,
+         WHITE}};
 
     Entity *door = &preRoomContent[0];
 
     int preRoomLen = sizeof(preRoomContent) / sizeof(preRoomContent[0]);
     EntityArray preRoomArray = {preRoomLen, preRoomContent};
-    
+
     Entity roomContent[] = {
         // notebook
         {{MAXX / 2 - 16, MAXY / 2 + 2},
-         {0,0},
-         {1,1},
+         {0, 0},
+         {1, 1},
          {0, bearer},
          {"💻"},
-         WHITE, 
+         WHITE,
          WHITE},
         // bearers
         // top
@@ -139,7 +157,7 @@ void initFirstRoom(Entity *player, int *playerLife){
          {"-"},
          WHITE,
          BROWN},
-         // bottom
+        // bottom
         {{MAXX / 2 - 20, MAXY / 2 + 4},
          {0, 0},
          {40, 1},
@@ -165,56 +183,82 @@ void initFirstRoom(Entity *player, int *playerLife){
          BROWN},
         // notebook
         {{MAXX / 2 - 16, MAXY / 2 - 2},
-         {0,0},
-         {1,1},
+         {0, 0},
+         {1, 1},
          {0, bearer},
          {"💻"},
-         WHITE, 
+         WHITE,
+         WHITE},
+        {{MAXX / 2 - 16, MAXY / 2 - 1},
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"😪"},
+         WHITE,
          WHITE},
         // book
         {{MAXX / 2 + 14, MAXY / 2 - 2},
-         {0,0},
-         {1,1},
+         {0, 0},
+         {1, 1},
          {0, bearer},
          {"📖"},
-         WHITE, 
+         WHITE,
+         WHITE},
+        {{MAXX / 2 + 14, MAXY / 2 - 1},
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"🤧"},
+         WHITE,
          WHITE},
         // book
         {{MAXX / 2 + 14, MAXY / 2 + 2},
-         {0,0},
-         {1,1},
+         {0, 0},
+         {1, 1},
          {0, bearer},
          {"💻"},
-         WHITE, 
+         WHITE,
          WHITE},
-         /*TEACHER 1 / BIG DIG*/
+        {{MAXX / 2 + 14, MAXY / 2 + 3},
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"😞"},
+         WHITE,
+         WHITE},
+        /*TEACHER 1 / BIG DIG*/
         {{MAXX / 2 - 2, MAXY / 2 - 3},
-        {0,0},
-        {1,1},
-        {0, bearer},
-        {"🤖"},
-        WHITE,
-        WHITE},
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"🤖"},
+         WHITE,
+         WHITE},
         /*TEACHER 2 / BIG LHERME*/
         {{MAXX / 2 + 2, MAXY / 2 - 3},
-        {0,0},
-        {1,1},
-        {0, bearer},
-        {"🧑"},
-        WHITE,
-        WHITE}
-    };
+         {0, 0},
+         {1, 1},
+         {0, bearer},
+         {"🧑"},
+         WHITE,
+         WHITE}};
 
-    /*👷🥸*/
     int roomContentLen = sizeof(roomContent) / sizeof(roomContent[0]);
     EntityArray roomArray = {roomContentLen, roomContent};
 
-    Entity *notebook = &roomContent[0];    
-    Entity *teacherBigDig = &roomContent[8];
-    Entity *teacherBigLherme = &roomContent[9];
+    Entity *notebook = &roomContent[0];
+    Entity *teacherBigDig = &roomContent[roomContentLen - 2];
+    Entity *teacherBigLherme = &roomContent[roomContentLen - 1];
 
-    /*▄︻デ══━一💥*/
+    showEntity(player);
+    screenUpdate();
 
+    showDialogBox("⁉️", "Narrador", "Voce eh um bolsista do cesar.");
+    showDialogBox("⁉️", "Narrador", "e como sempre, voce esta atrasado.");
+
+    screenClear();
+    screenInit(1);
+    player->pos.y = MAXY - MINY - 4;
     showEntities(&preRoomArray);
     showEntity(player);
     screenUpdate();
@@ -241,33 +285,42 @@ void initFirstRoom(Entity *player, int *playerLife){
             screenUpdate();
 
             // if player is collide with door
-            if(door->collision.isColliding){
+            if (door->collision.isColliding)
+            {
                 showPreRoom = 0;
                 door->collision.isColliding = 0;
-                animationIntro(player);
+                printText("  ", player->pos.x, player->pos.y, WHITE, WHITE);
+                player->pos.y = MAXY / 2 + 3;
+                showEntity(player);
+                screenUpdate();
                 showDialogBox("🧑", "Big Lherme", "Todos nos seus lugares! A aula vai comecar.");
                 showDialogBox("🧠", "Celebro", "Vou para o meu lugar!");
-                notebook->bg = LIGHTGRAY;
             }
 
-            if(teacherBigLherme->collision.isColliding){
+            if (teacherBigLherme->collision.isColliding)
+            {
                 teacherBigLherme->collision.isColliding = 0;
                 showDialogBox("🧑", "Big Lherme", "Eu sou Big Lherme, va para o seu lugar para comecarmos!");
             }
 
-            if(teacherBigDig->collision.isColliding){
+            if (teacherBigDig->collision.isColliding)
+            {
                 teacherBigDig->collision.isColliding = 0;
                 showDialogBox("🤖", "Big Dig", "Eu sou Big Dig, vamos comecar.");
             }
 
-            if(notebook->collision.isColliding){
+            if (notebook->collision.isColliding)
+            {
                 notebook->collision.isColliding = 0;
                 showDialogBox("🧑", "Big Lherme", "Na logica computacional, temos que validar proposicoes para chegarmos a conclusao!");
                 showDialogBox("🧑", "Big Lherme", "Isso eh o que chamamos de inferencia");
                 showDialogBox("🤖", "Big Dig", "Verdade.");
                 break;
             }
-
+            if (!showPreRoom)
+            {
+                notebook->bg = notebook->bg == LIGHTGRAY ? WHITE : LIGHTGRAY;
+            }
         }
     }
 
@@ -298,13 +351,13 @@ void initFirstRoom(Entity *player, int *playerLife){
     screenUpdate();
     showDialogBox("🧑", "Big Lherme", "Essa eh uma grade logica");
     setSleep(5);
-   
+
     Vector2D initPlayerPos = {initGridPos.x + 2, initGridPos.y + 1};
     resetEntity(player, initPlayerPos);
     showEntity(player);
     screenUpdate();
     setSleep(10);
-    
+
     player->vel.x += 6;
     showEntity(player);
     screenUpdate();
@@ -317,7 +370,7 @@ void initFirstRoom(Entity *player, int *playerLife){
     setSleep(5);
     showDialogBox("🧑", "Big Lherme", "Alem disso, voce consegue colocar valores logicos");
     showDialogBox("🧑", "Big Lherme", "Use a tecla V para verdadeiro");
-    battleGrid->grid[0][2] = setTrue; 
+    battleGrid->grid[0][2] = setTrue;
     showBattleRoom(battleGrid, initGridPos);
     showEntity(player);
     screenUpdate();
@@ -332,12 +385,12 @@ void initFirstRoom(Entity *player, int *playerLife){
     showBattleRoom(battleGrid, initGridPos);
     showEntity(player);
     screenUpdate();
-    
+
+    showDialogBox("🧑", "Big Lherme", "Caso mude de ideia, use a tecla R para resetar");
     player->vel.x += 6;
     showEntity(player);
     screenUpdate();
     setSleep(5);
-    showDialogBox("🧑", "Big Lherme", "Caso mude de ideia, use a tecla R para resetar");
     battleGrid->grid[0][2] = reset;
     showBattleRoom(battleGrid, initGridPos);
     showEntity(player);
@@ -352,15 +405,15 @@ void initFirstRoom(Entity *player, int *playerLife){
     showBattleRoom(battleGrid, initGridPos);
     showEntity(player);
     screenUpdate();
-    setSleep(10); 
-    
+    setSleep(10);
+
     showDialogBox("🧑", "Big Lherme", "o seu objetivo eh validar as proposicoes (linhas e colunas)");
     printText("------", initGridPos.x + 6, initGridPos.y - 1, WHITE, RED);
     printText("⼁", initGridPos.x + 6 * 3, initGridPos.y + 3, WHITE, GREEN);
     printText("⼁", initGridPos.x + 6 * 3, initGridPos.y + 4, WHITE, GREEN);
     printText("⼁", initGridPos.x + 6 * 3, initGridPos.y + 5, WHITE, GREEN);
     screenUpdate();
-    showDialogBox("🧑","Big Lherme","correspondendo as conclusoes (valores ao redor da grid)");
+    showDialogBox("🧑", "Big Lherme", "correspondendo as conclusoes (valores ao redor da grid)");
 
     /*LINHA VERMELHA*/
     showDialogBox("🧑", "Big Lherme", "onde vermelho significa que a proposicao deve resultar em falso");
@@ -391,23 +444,104 @@ void initFirstRoom(Entity *player, int *playerLife){
     screenUpdate();
     setSleep(10);
 
-    /*// right flame
-    printText("🔥", teacherBigLherme->pos.x + 4, teacherBigLherme->pos.y, WHITE, WHITE);
+    /*RESETA LINHA*/
+    battleGrid->grid[1][0] = reset;
+    battleGrid->grid[1][1] = reset;
+    battleGrid->grid[1][2] = reset;
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(10);
+
+    player->vel.x -= 6;
+    showEntity(player);
     screenUpdate();
     setSleep(5);
+    /*LINHA VERDE*/
+    player->vel.y += 3;
+    showEntity(player);
+    screenUpdate();
+    setSleep(5);
+    battleGrid->grid[1][1] = negation;
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(5);
+    showDialogBox("🧑", "Big Lherme", "essa eh uma negacao, um operador logico");
+
+    showDialogBox("🧑", "Big Lherme", "ela opera invertendo os valores logicos ao redor");
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(5);
+
+    battleGrid->grid[1][0] = setFalse;
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(5);
+    showDialogBox("🧑", "Big Lherme", "entao, quando falso ela resultara em verdadeiro");
+    battleGrid->grid[1][2] = setTrue;
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(5);
+    showDialogBox("🧑", "Big Lherme", "assim, validando a preposicao");
+
+
+    showDialogBox("🧑", "Big Lherme", "mas, claro que nao seria tao facil assim, veja!");
+    // left flame
+    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y, WHITE, WHITE);
+    screenUpdate();
+    setSleep(5);
+
+    // frame down
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    printText("  ", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y , WHITE, WHITE);
+    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 4, WHITE, WHITE);
+    screenUpdate();
+    setSleep(3);
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    printText("  ", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 4, WHITE, WHITE);
+    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 7, WHITE, WHITE);
+    screenUpdate();
+    setSleep(3);
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    printText("  ", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 7, WHITE, WHITE);
+    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 10, WHITE, WHITE);
+    screenUpdate();
+    setSleep(3);
+    printText("  ", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 10, WHITE, WHITE);
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    battleGrid->grid[1][0] = reset;
+    battleGrid->grid[1][2] = reset;
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(5);
+    showDialogBox("🧑", "Big Lherme", "ataques como esse podem te machucar e desfazer seus valores logicos");
+
+    showDialogBox("🧑", "Big Lherme", "entendido?");
+    showDialogBox("🧑", "Big Lherme", "NAO?");
+    showDialogBox("🧑", "Big Lherme", "ISSO EH CESAR SCHOOL!");
+    showDialogBox("🧑", "Big Lherme", "REPROVE!!!");
+    // right flame
+    printText("🔥", teacherBigLherme->pos.x + 6, teacherBigLherme->pos.y, WHITE, WHITE);
+    screenUpdate();
+    setSleep(2);
     // top flame
     printText("🔥", teacherBigLherme->pos.x, teacherBigLherme->pos.y - 2, WHITE, WHITE);
     screenUpdate();
-    setSleep(5);
+    setSleep(2);
     // left flame
-    printText("🔥", teacherBigLherme->pos.x - 4, teacherBigLherme->pos.y, WHITE, WHITE);
+    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y, WHITE, WHITE);
     screenUpdate();
-    setSleep(5); */
-}
+    setSleep(2);
+    setSleep(10);
 
-void animationIntro(Entity *player){
-    printText("  ", player->pos.x, player->pos.y, WHITE, WHITE);
-    player->pos.y = MAXY / 2 + 3;
-    showEntity(player);
-    screenUpdate();
+    destroyGrid(battleGrid);
 }

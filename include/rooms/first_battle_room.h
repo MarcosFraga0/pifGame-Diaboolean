@@ -1,13 +1,13 @@
 /**
- * @file first_room.h
- * @author Joanna
- * @date Nov, 10th 2025
- * @details first game room
+ * @file first_battle_room.h
+ * @author Vinicius Braz (gitviini)
+ * @date Nov, 24th 2025
+ * @brief first battle
  */
 
-#ifndef FIRST_ROOM_H
-#define FIRST_ROOM_H
- 
+#ifndef FIRST_BATTLE_ROOM_H
+#define FIRST_BATTLE_ROOM_H
+
 #include "screen.h"
 #include "timer.h"
 #include "keyboard.h"
@@ -19,6 +19,6 @@
 #include "ui/menu.h"
 #include "rooms/battle_room.h"
 
-void initFirstRoom(Entity *player, int *playerLife);
+void initFirstBattleRoom(Entity *player, int *playerLife);
 
 #endif
