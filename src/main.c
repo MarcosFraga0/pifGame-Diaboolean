@@ -41,12 +41,12 @@ int main()
   screenUpdate();
 
   // game rooms
-  /* initFirstRoom(&player, &playerLife);
-  clearScreen();
+  initFirstRoom(&player, &playerLife);
+  /* clearScreen();
   initSecondRoom(&player, &playerLife);
-  clearScreen(); */
-  initFourRoom(&player, &playerLife);
   clearScreen();
+  initFourRoom(&player, &playerLife);
+  clearScreen(); */
 
   // stop config
   screenDestroy();

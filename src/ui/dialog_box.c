@@ -152,6 +152,8 @@ void typingDialogBox(char *text, int nameLen)
     int y = 0;
     int index = 0;
 
+    char ch = 0;
+
     while (text[index] != EOF && text[index] != '\0')
     {
         if (maxTextLen == x)
@@ -194,6 +196,6 @@ void showDialogBox(char *entitySprite, char *entityName, char *text)
     drawDialogBox();
     drawEntityTalkingBox(entitySprite, entityName, nameLen);
     typingDialogBox(text, nameLen);
-    setSleep(20);
+    setSleep(15);
     clearDialogBox();
 }

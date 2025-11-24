@@ -13,9 +13,11 @@
 #include "keyboard.h"
 
 #include "handlers/keyboardHandler.h"
+#include "handlers/timeHandler.h"
 #include "entities/entity.h"
 #include "ui/dialog_box.h"
 #include "ui/menu.h"
+#include "rooms/battle_room.h"
 
 void initFirstRoom(Entity *player, int *playerLife);
 
