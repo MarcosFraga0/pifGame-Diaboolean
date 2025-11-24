@@ -299,20 +299,19 @@ void initFirstRoom(Entity *player, int *playerLife){
     showDialogBox("🧑", "Big Lherme", "Essa eh uma grade logica");
     setSleep(5);
    
-    player->pos.x = initGridPos.x + 2;
-    player->pos.y = initGridPos.y + 1;
+    Vector2D initPlayerPos = {initGridPos.x + 2, initGridPos.y + 1};
+    resetEntity(player, initPlayerPos);
     showEntity(player);
     screenUpdate();
     setSleep(10);
     
-    printText("  ", player->pos.x, player->pos.y, WHITE, WHITE);
-    player->pos.x += 6;
+    player->vel.x += 6;
     showEntity(player);
     screenUpdate();
     setSleep(5);
     showDialogBox("🧑", "Big Lherme", "Nela voce pode andar usando WASD");
     printText("  ", player->pos.x, player->pos.y, WHITE, WHITE);
-    player->pos.x += 6;
+    player->vel.x += 6;
     showEntity(player);
     screenUpdate();
     setSleep(5);
@@ -324,16 +323,20 @@ void initFirstRoom(Entity *player, int *playerLife){
     screenUpdate();
     setSleep(5);
 
+    player->vel.x -= 6;
+    showEntity(player);
+    screenUpdate();
+    setSleep(5);
     showDialogBox("🧑", "Big Lherme", "e a tecla F para falso");
     battleGrid->grid[0][1] = setFalse;
     showBattleRoom(battleGrid, initGridPos);
     showEntity(player);
     screenUpdate();
-    setSleep(5);
-
-    player->vel.x = 6;
+    
+    player->vel.x += 6;
     showEntity(player);
     screenUpdate();
+    setSleep(5);
     showDialogBox("🧑", "Big Lherme", "Caso mude de ideia, use a tecla R para resetar");
     battleGrid->grid[0][2] = reset;
     showBattleRoom(battleGrid, initGridPos);
@@ -341,10 +344,10 @@ void initFirstRoom(Entity *player, int *playerLife){
     screenUpdate();
     setSleep(10);
 
-    player->vel.x = -6;
+    player->vel.x -= 6;
     showEntity(player);
     screenUpdate();
-    setSleep(10);
+    setSleep(5);
     battleGrid->grid[0][1] = reset;
     showBattleRoom(battleGrid, initGridPos);
     showEntity(player);
