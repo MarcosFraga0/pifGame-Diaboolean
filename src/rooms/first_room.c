@@ -354,6 +354,8 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     showDialogBox("🧑", "Big Lherme", "Essa eh uma grade logica");
     setSleep(5);
 
+    /*showHud (heart and souls)*/
+    showHud(playerLife, playerSouls);
     Vector2D initPlayerPos = {initGridPos.x + 2, initGridPos.y + 1};
     resetEntity(player, initPlayerPos);
     showEntity(player);
@@ -416,6 +418,7 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     printText("⼁", initGridPos.x + 6 * 3, initGridPos.y + 5, WHITE, GREEN);
     screenUpdate();
     showDialogBox("🧑", "Big Lherme", "correspondendo as conclusoes (valores ao redor da grid)");
+
 
     /*LINHA VERMELHA*/
     showDialogBox("🧑", "Big Lherme", "onde vermelho significa que a proposicao deve resultar em falso");
@@ -488,7 +491,7 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     showEntity(player);
     screenUpdate();
     setSleep(5);
-    showDialogBox("🧑", "Big Lherme", "assim, validando a preposicao");
+    showDialogBox("🧑", "Big Lherme", "assim, validando a proposicao");
 
 
     showDialogBox("🧑", "Big Lherme", "mas, claro que nao seria tao facil assim, veja!");
@@ -497,7 +500,7 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     screenUpdate();
     setSleep(5);
 
-    // frame down
+    // flame down
     showBattleRoom(battleGrid, initGridPos);
     showEntity(player);
     printText("  ", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y , WHITE, WHITE);
@@ -508,6 +511,8 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     showEntity(player);
     printText("  ", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 4, WHITE, WHITE);
     printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 7, WHITE, WHITE);
+    *playerLife -= 1;
+    showHud(playerLife, playerSouls);
     screenUpdate();
     setSleep(3);
     showBattleRoom(battleGrid, initGridPos);
@@ -526,7 +531,7 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     screenUpdate();
     setSleep(5);
     showDialogBox("🧑", "Big Lherme", "ataques como esse podem te machucar e desfazer seus valores logicos");
-
+    
     showDialogBox("🧑", "Big Lherme", "entendido?");
     showDialogBox("🧑", "Big Lherme", "NAO?");
     showDialogBox("🧑", "Big Lherme", "ISSO EH CESAR SCHOOL!");

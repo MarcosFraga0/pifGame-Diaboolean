@@ -10,30 +10,21 @@
 
 #define ENEMY_TICK 2
 
-void secondRoomEnemy(Entity *enemy, Entity *project, Vector2D *gridVertex, Vector2D playerPos);
+void enemySecondLogic(Entity *enemy, Entity *project, Vector2D *gridVertex, Vector2D playerPos);
 
 /**
  * @brief Init battle room and logic
  * @param {Entity *player} player principal
  * @param {int *playerLife} vida do player
+ * @param {int *playerSouls} almas do player
  */
-void initSecondRoom(Entity *player, int *playerLife)
+void initSecondRoom(Entity *player, int *playerLife, int *playerSouls)
 {
     // configs
     Vector2D initialGridPos = {MAXX / 2 - 12, 6};
     Vector2D initial = {initialGridPos.x + 2, initialGridPos.y + 1};
     int step = 6;
     int counterTickEnemy = 0;
-
-    // player life
-    Entity life = {
-        {MINX + 2, MINY + 1},
-        {0, 0},
-        {*playerLife * 4, 1},
-        {0, collisionNone},
-        {"♥ "},
-        RED,
-        WHITE};
 
     // grid 4x4
     int gridLen = 4;
@@ -95,7 +86,7 @@ void initSecondRoom(Entity *player, int *playerLife)
              {"  "},
              WHITE,
              WHITE},
-            // green premise
+            // green conclusion
             {{gridVertex[1].x - 6 * 2, gridVertex[1].y},
              {0, 0},
              {6, 1},
@@ -103,7 +94,7 @@ void initSecondRoom(Entity *player, int *playerLife)
              {"-"},
              WHITE,
              GREEN},
-            // red premise
+            // red conclusion
             {{gridVertex[1].x, gridVertex[1].y + 4},
              {0, 0},
              {2, 3},
@@ -212,7 +203,7 @@ void initSecondRoom(Entity *player, int *playerLife)
             showEntityNoMove(project);
             showEntities(&bearers);
             showEntityNoMove(enemy);
-            showEntity(&life);
+            showHud(playerLife, playerSouls);
 
             // check collision between player and enemy/project
             checkCollision(player, &enemies);
@@ -228,11 +219,10 @@ void initSecondRoom(Entity *player, int *playerLife)
             if (player->collision.collisionType == damage)
             {
                 *playerLife -= 1;
-                life.len.x = *playerLife * 4;
             }
 
             showEntityNoStop(project);
-            secondRoomEnemy(enemy, project, gridVertex, player->pos);
+            enemySecondLogic(enemy, project, gridVertex, player->pos);
             counterTickEnemy = 0;
         }
     }
@@ -269,7 +259,7 @@ void initSecondRoom(Entity *player, int *playerLife)
         clearScreen();
 
         *playerLife = 3;
-        initSecondRoom(player, playerLife);
+        initSecondRoom(player, playerLife, playerSouls);
         return;
     }
 
@@ -309,7 +299,7 @@ void initSecondRoom(Entity *player, int *playerLife)
     destroyGrid(battleGridCondition);
 }
 
-void secondRoomEnemy(Entity *enemy, Entity *project, Vector2D *gridVertex, Vector2D playerPos)
+void enemySecondLogic(Entity *enemy, Entity *project, Vector2D *gridVertex, Vector2D playerPos)
 {
 
     int y = enemy->pos.y;

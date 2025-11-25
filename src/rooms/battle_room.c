@@ -25,6 +25,12 @@ char CONDITION[] = "->";
 BattleGrid *createGrid(int rows, int cols){
     Action **grid;
     grid = (Action**) malloc(sizeof(Action*) * rows);
+
+    // if grid isn't allocated, free grid and returns null
+    if(!grid){
+        free(grid);
+        return NULL;
+    }
     
     for(int i = 0; i < rows; i++){
         grid[i] = (Action*) malloc(sizeof(Action) * cols);
@@ -43,6 +49,7 @@ BattleGrid *createGrid(int rows, int cols){
     if(!battleGrid){
         for(int a = 0; a < rows; a++) free(grid[a]);
         free(grid);
+        free(battleGrid);
         return NULL;
     }
 

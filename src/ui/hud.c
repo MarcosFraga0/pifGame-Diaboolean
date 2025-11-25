@@ -24,9 +24,11 @@ void showPlayerHeart(int playerLife){
 
     screenGotoxy(initHeartHudPos.x, initHeartHudPos.y);
     // draw
+    screenSetColor(RED, WHITE);
     for(int x = 0; x < playerLife; x++){
         printf("♥️ ");
     }
+    screenSetNormal();
 }
 
 void showSouls(int playerSouls){
