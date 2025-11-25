@@ -6,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include <locale.h> // <--- 1. Adicionei para corrigir os emojis no meu PC
 
 #include "keyboard.h"
 #include "screen.h"
@@ -16,16 +17,20 @@
 #include "rooms/first_room.h"
 #include "rooms/second_room.h"
 #include "rooms/four_room.h"
+#include "rooms/copa_room.h"
 
 #define CLOCK 100
 
 int main()
 {
+  // 2. Configura o locale para aceitar caracteres especiais/emojis
+  setlocale(LC_ALL, ""); 
+
   // main entity
   Entity player = {
     {4, 8},
     {0, 0},
-    {1, 1},
+    {2, 1}, // <--- 3. ALTERADO DE {1, 1} PARA {2, 1} (Largura 2 para cobrir o emoji e não deixar rastro)
     {0, collisionNone},
     {"🤓"},
     WHITE,
@@ -41,12 +46,16 @@ int main()
   screenUpdate();
 
   // game rooms
-  initFirstRoom(&player, &playerLife);
-  /* clearScreen();
-  initSecondRoom(&player, &playerLife);
+  // initFirstRoom(&player, &playerLife); 
+  // clearScreen();
+  
+  initCopaRoom(&player, &playerLife);
+  
+  /* initSecondRoom(&player, &playerLife);
   clearScreen();
   initFourRoom(&player, &playerLife);
-  clearScreen(); */
+  clearScreen(); 
+  */
 
   // stop config
   screenDestroy();
