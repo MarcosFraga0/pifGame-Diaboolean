@@ -12,8 +12,9 @@
  * @brief Init battle room and logic
  * @param {Entity *player} player principal
  * @param {int *playerLife} vida do player
+ * @param {int *playerSouls} almas do player
  */
-void initFirstRoom(Entity *player, int *playerLife)
+void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
 {
     // initial player position
     player->collision.isColliding = 0;
@@ -279,6 +280,7 @@ void initFirstRoom(Entity *player, int *playerLife)
 
         if (timerTimeOver() == 1)
         {
+            showHud(playerLife, playerSouls);
             showMenu(&ch);
             showEntities(showPreRoom ? &preRoomArray : &roomArray);
             showEntity(player);

@@ -33,6 +33,7 @@ int main()
   };
 
   int playerLife = 3;
+  int playerSouls = 1;
 
   // init config
   screenInit(1);
@@ -41,7 +42,7 @@ int main()
   screenUpdate();
 
   // game rooms
-  initFirstRoom(&player, &playerLife);
+  initFirstRoom(&player, &playerLife, &playerSouls);
   /* clearScreen();
   initSecondRoom(&player, &playerLife);
   clearScreen();
