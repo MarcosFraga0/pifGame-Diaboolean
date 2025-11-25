@@ -18,6 +18,7 @@
 #include "rooms/second_room.h"
 #include "rooms/four_room.h"
 #include "rooms/copa_room.h"
+#include "rooms/second_battle_room.h"
 
 #define CLOCK 100
 
@@ -50,6 +51,9 @@ int main()
   // clearScreen();
   
   initCopaRoom(&player, &playerLife);
+
+  clearScreen();
+  initSecondBattleRoom(&player, &playerLife);
   
   /* initSecondRoom(&player, &playerLife);
   clearScreen();
