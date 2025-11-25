@@ -156,7 +156,7 @@ void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls){
     };
 
     showBattleRoom(battleGrid, initGridPos);
-    showEntities(&projectsArray);
+    /* showEntities(&projectsArray); */
     showEntities(&bearersArray);
     showEntity(&teacherBigLherme);
     showEntity(player);
@@ -176,9 +176,9 @@ void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls){
         }
 
         if (timerTimeOver()){
+            showBattleRoom(battleGrid, initGridPos);
             showMenu(&ch);
             showHud(playerLife, playerSouls);
-            showBattleRoom(battleGrid, initGridPos);
 
             Vector2D playerGridPos = getGridPos(player, gridVertex, initPlayerPos, step);
             actionRoom(action, battleGrid, playerGridPos);
@@ -198,22 +198,23 @@ void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls){
             
             enemyFisrtLogic(&projectsArray, gridVertex, teacherBigLherme);
 
+            // check collision between player and enemy/project
+            checkCollision(player, &projectsArray);
+
             screenUpdate();
             countEnemyTick++;
         }
 
         if(countEnemyTick == enemyTick){
-            // check collision between player and enemy/project
-            checkCollision(player, &projectsArray);
-
-            if(player->collision.collisionType == damage){
-                playerLife--;
-                player->collision.collisionType = collisionNone;
-            }
-
             for(int i = 0; i < 3; i++){
                 Entity *project = &projectsArray.entities[i];
                 showEntityNoStop(project);
+                screenUpdate();
+            }
+
+            if(player->collision.collisionType == damage){
+                *playerLife -= 1;
+                player->collision.collisionType = collisionNone;
             }
 
             countEnemyTick = 0;
@@ -258,26 +259,4 @@ void enemyFisrtLogic(EntityArray* projectsArray, Vector2D* gridVertex, Entity te
 
     Entity *project = &projectsArray->entities[random];
     project->vel.y = 3;
-
-
-    /* for(int i = 0; i < 3; i++){
-        Entity *project = &projectsArray->entities[i];
-
-        project->vel.y = 3;
-
-        if(project->pos.y == gridVertex[2].y + 1){
-            project->vel.y = 0;
-            project->pos.y = initialProjectsPos[i].y;
-        }
-
-    } */
-
-    /* if(!isProjectsStop){
-        return;
-    }
-
-    for(int i = 0; i < 3; i++){
-        Entity *project = &projectsArray->entities[i];
-        project->pos.y = initialProjectsPos[i].y;
-    } */
 }
