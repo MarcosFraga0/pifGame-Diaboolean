@@ -13,6 +13,7 @@
 
 #include "entities/entity.h"
 #include "handlers/keyboardHandler.h"
+#include "rooms/dead_room.h"
 #include "rooms/first_room.h"
 #include "rooms/first_battle_room.h"
 #include "rooms/second_room.h"
@@ -43,12 +44,13 @@ int main()
   screenUpdate();
 
   // game rooms
-  /* initFirstRoom(&player, &playerLife, &playerSouls); */
+  initFirstRoom(&player, &playerLife, &playerSouls);
   initFirstBattleRoom(&player, &playerLife, &playerSouls);
-
+  initDeadRoom(&player, &playerLife, &playerSouls);
+  
   /* clearScreen();
-  initSecondRoom(&player, &playerLife);
   clearScreen();
+  initSecondRoom(&player, &playerLife, &playerSouls);
   initFourRoom(&player, &playerLife);
   clearScreen(); */
 

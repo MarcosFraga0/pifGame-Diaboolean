@@ -1,6 +1,6 @@
 /**
  * @file first_battle_room.h
- * @author Vinicius Braz (gitviini)
+ * @author Joanna
  * @date Nov, 24th 2025
  * @brief first battle
  */
@@ -155,13 +155,18 @@ void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls){
         projectsContent
     };
 
+    screenClear();
+    screenInit(1);
+    screenUpdate();
+
     showBattleRoom(battleGrid, initGridPos);
-    /* showEntities(&projectsArray); */
+    showEntities(&projectsArray);
     showEntities(&bearersArray);
     showEntity(&teacherBigLherme);
     showEntity(player);
     showHud(playerLife, playerSouls);
     screenUpdate();
+    setSleep(5);
 
     Action action = actionNone;
     char ch = ' ';
@@ -176,9 +181,8 @@ void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls){
         }
 
         if (timerTimeOver()){
-            showBattleRoom(battleGrid, initGridPos);
-            showMenu(&ch);
             showHud(playerLife, playerSouls);
+            showBattleRoom(battleGrid, initGridPos);
 
             Vector2D playerGridPos = getGridPos(player, gridVertex, initPlayerPos, step);
             actionRoom(action, battleGrid, playerGridPos);
@@ -186,8 +190,7 @@ void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls){
                 Vector2D projectGridPos = getGridPos(&projectsContent[i], gridVertex, initPlayerPos, step);
                 actionRoom(reset, battleGrid, projectGridPos);
             }
-            
-            showBattleRoom(battleGrid, initGridPos);
+
             showEntities(&bearersArray);
             showEntityNoMove(&teacherBigLherme);
             showEntity(player);
@@ -223,7 +226,6 @@ void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls){
 
     destroyGrid(battleGrid);
     destroyGrid(battleGridCondition);
-
 }
 
 void enemyFisrtLogic(EntityArray* projectsArray, Vector2D* gridVertex, Entity teacherBigLherme){
