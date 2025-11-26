@@ -1,107 +1,120 @@
 /**
  * @file second_battle_room.c
- * @details Battle Room 2: Tutorial do Operador AND (^) com Cutscene da Nariko
+ * @author Marcos
+ * @details Tutorial do Operador AND (^) com Cutscene da Nariko
  */
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h> // Para rand()
+#include <stdlib.h> // Necessário para rand()
+
+// --- INCLUDES OBRIGATÓRIOS ---
 #include "rooms/second_battle_room.h"
 #include "rooms/battle_room.h"
-#include "handlers/timeHandler.h"
+#include "entities/entity.h"
 #include "handlers/keyboardHandler.h"
 #include "handlers/actionRoomHandler.h"
+#include "handlers/timeHandler.h"
+#include "handlers/screenHandler.h"
 #include "ui/dialog_box.h"
 #include "ui/menu.h"
+#include "screen.h"
+#include "keyboard.h"
+#include "animations/player.h"
 
-// Configurações da Sala
-#define STEP 6
 #define FIRE_SPEED 2
 
-// Função auxiliar para a IA da Nariko
-void narikoAI(Entity *nariko, Entity *fire, Vector2D minPos, Vector2D maxPos);
+// Função auxiliar para o tiro da Nariko
+void narikoShooting(Entity *nariko, Entity *fire, int limitX);
 
 void initSecondBattleRoom(Entity *player, int *playerLife)
 {
-    // --- 1. SETUP INICIAL ---
-    
+    // --- 1. CONFIGURAÇÕES ---
     Vector2D initialGridPos = {MAXX / 2 - 9, MAXY / 2 - 4};
+    // Define step internamente
+    const int step = 6;
     
     // Grid 3x3
-    BattleGrid *battleGrid = createGrid(3, 3);
-    BattleGrid *battleGridCondition = createGrid(3, 3);
+    int gridLen = 3;
+    BattleGrid *battleGrid = createGrid(gridLen, gridLen);
+    BattleGrid *battleGridCondition = createGrid(gridLen, gridLen);
 
     // Configuração do Puzzle (AND)
     battleGrid->grid[1][1] = conjunction; 
 
-    // Condição de Vitória (Gabarito): V ^ V = V
-    battleGridCondition->grid[1][0] = setTrue; 
-    battleGridCondition->grid[1][2] = setTrue; 
-    battleGridCondition->grid[2][1] = setTrue;
+    // Condição de Vitória (Vertical: Cima ^ Baixo -> Direita)
+    battleGridCondition->grid[1][0] = setTrue;  // Input 1 (Cima)
+    battleGridCondition->grid[1][2] = setTrue;  // Input 2 (Baixo)
+    battleGridCondition->grid[2][1] = setTrue;  // Output (Direita)
     battleGridCondition->grid[1][1] = conjunction;
 
-    // Posiciona o Player
+    // Vértices da Grid (4 pontos)
+    Vector2D gridVertex[4] = {
+        {initialGridPos.x - 2, initialGridPos.y - 1},
+        {initialGridPos.x + (step * gridLen), initialGridPos.y - 1},
+        {initialGridPos.x + (step * gridLen), initialGridPos.y + (step / 2 * gridLen)},
+        {initialGridPos.x - 2, initialGridPos.y + (step / 2 * gridLen)}
+    };
+
+    // Reset Player
     Vector2D initialPlayerPos = {initialGridPos.x + 2, initialGridPos.y + 1};
     resetEntity(player, initialPlayerPos);
 
     // --- 2. ENTIDADES ---
     
-    Entity entities[] = {
-        // [0] Fantasma
-        {{MAXX/2, initialGridPos.y - 4}, {0,0}, {1,1}, {0, bearer}, {"👻"}, WHITE, WHITE},
-        
-        // [1] Nariko (Boss)
-        {{MAXX - 6, initialGridPos.y + 4}, {0,0}, {1,1}, {0, bearer}, {"👺"}, RED, WHITE},
-        
-        // [2] Fogo (Projétil)
-        {{0, 0}, {0,0}, {1,1}, {0, damage}, {"🔥"}, YELLOW, RED},
+    // Paredes Visuais (Bearers) ao redor da grid
+    // IMPORTANTE: Removi as paredes laterais invisíveis que travavam o jogador
+    // Mantive apenas as visuais "decorativas" ou limites extremos
+    Entity contentBearers[] = {
 
-        // --- DICAS VISUAIS (Gabarito na Borda) ---
-        // Esquerda (Verde - True)
-        {{initialGridPos.x - 2, initialGridPos.y + 4}, {0,0}, {1,1}, {0, collisionNone}, {"V"}, WHITE, GREEN},
-        // Direita (Verde - True)
-        {{initialGridPos.x + (STEP*3) + 1, initialGridPos.y + 4}, {0,0}, {1,1}, {0, collisionNone}, {"V"}, WHITE, GREEN},
-        // Baixo (Verde - Resultado True)
-        {{initialGridPos.x + STEP + 2, initialGridPos.y + (STEP/2)*3 + 1}, {0,0}, {1,1}, {0, collisionNone}, {"V"}, WHITE, GREEN},
-        
-        // Paredes invisíveis (Limites)
-        {{initialGridPos.x - 4, initialGridPos.y}, {0,0}, {1, 15}, {0, bearer}, {"|"}, WHITE, WHITE},
-        {{initialGridPos.x + (STEP*3) + 4, initialGridPos.y}, {0,0}, {1, 15}, {0, bearer}, {"|"}, WHITE, WHITE},
+        // --- DICAS VISUAIS (Verdes) ---
+        // Topo (Alinhado com a coluna do meio [2][2])
+        {{initialGridPos.x + step, initialGridPos.y + (step / 2) * 3}, {0,0}, {step, 1}, {0, collisionNone}, {"-"}, WHITE, GREEN},
     };
     
-    // Ponteiros para facilitar
-    Entity *ghost = &entities[0];
-    Entity *nariko = &entities[1];
-    Entity *fire = &entities[2];
-    
-    // Calcula tamanho do array automaticamente
-    int entitiesCount = sizeof(entities) / sizeof(entities[0]);
-    EntityArray entityArray = {entitiesCount, entities};
+    int bearersLen = sizeof(contentBearers) / sizeof(contentBearers[0]);
+    EntityArray bearers = {bearersLen, contentBearers};
 
-    // Esconde Nariko e Fogo inicialmente
-    nariko->fg = BLACK; 
-    nariko->bg = BLACK; 
+    // Inimigos e NPCs
+    Entity contentEnemies[] = {
+        // [0] Fantasma
+        {{MAXX/2, initialGridPos.y - 4}, {0,0}, {1,1}, {0, bearer}, {"👻"}, WHITE, WHITE},
+        // [1] Nariko (Boss)
+        {{MAXX - 6, initialGridPos.y + 4}, {0,0}, {1,1}, {0, bearer}, {" "}, RED, WHITE}, 
+        // [2] Fogo (Projétil)
+        {{-10, -10}, {0,0}, {1,1}, {0, damage}, "🔥", YELLOW, WHITE}
+    };
+    
+    int enemiesLen = sizeof(contentEnemies) / sizeof(contentEnemies[0]);
+    EntityArray enemies = {enemiesLen, contentEnemies};
+
+    Entity *ghost = &contentEnemies[0];
+    Entity *nariko = &contentEnemies[1];
+    Entity *fire = &contentEnemies[2];
+
+    // Esconde fogo
     strcpy(fire->sprite[0], " "); 
+
+    Action action = actionNone;
+    char ch = ' ';
 
     // --- 3. CUTSCENE ---
     
     screenInit(1);
     showBattleRoom(battleGrid, initialGridPos);
-    showEntities(&entityArray); 
+    showEntities(&bearers);
     showEntity(player);
     screenUpdate();
 
-    // Diálogo 1
     showDialogBox(player->sprite[0], "Nerd", "Mas que simbolo eh esse??");
 
-    // Fantasma fala
     showEntity(ghost); 
     screenUpdate();
     setSleep(10);
     showDialogBox("👻", "Gasparzinho", "Esse eh o simbolo de conjuncao (^).");
 
-    // Fantasma se move para a esquerda (Tutorial)
-    printText(" ", ghost->pos.x, ghost->pos.y, WHITE, WHITE); 
+    // Fantasma move
+    printText("  ", ghost->pos.x, ghost->pos.y, WHITE, WHITE); 
     ghost->pos.x = initialGridPos.x + 2; 
     ghost->pos.y = initialGridPos.y + 4; 
     showEntity(ghost); 
@@ -109,14 +122,19 @@ void initSecondBattleRoom(Entity *player, int *playerLife)
     
     showDialogBox("👻", "Gasparzinho", "Ao colocar valores iguais, resultara em verdadeiro.");
 
-    // Fantasma "digita" na grid
-    battleGrid->grid[1][0] = setFalse;
+    // Demonstração
+    battleGrid->grid[1][0] = setTrue;
     battleGrid->grid[1][2] = setTrue;
     
-    // Simula processamento da lógica
-    actionRoomHandler(actionNone, (Vector2D){0,0}, battleGrid);
-    
-    showBattleRoom(battleGrid, initialGridPos); 
+    // Força atualização visual da grid
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntity(player);
+    showEntity(ghost);
+    screenUpdate();
+    setSleep(15);
+
+    battleGrid->grid[2][1] = setTrue;
+    showBattleRoom(battleGrid, initialGridPos);
     showEntity(player);
     showEntity(ghost);
     screenUpdate();
@@ -124,25 +142,40 @@ void initSecondBattleRoom(Entity *player, int *playerLife)
 
     showDialogBox("👻", "Gasparzinho", "Caso os valores sejam diferentes, resultara em falso.");
 
+    battleGrid->grid[1][0] = setFalse;
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntity(player);
+    showEntity(ghost);
+    screenUpdate();
+    setSleep(15);
+    battleGrid->grid[2][1] = setFalse;
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntity(player);
+    showEntity(ghost);
+    screenUpdate();
+    setSleep(15);
+
     // Nariko Aparece
-    nariko->fg = RED; 
-    nariko->bg = WHITE;
+    strcpy(nariko->sprite[0], "👺");
     showEntity(nariko);
     screenUpdate();
     setSleep(10);
     
     showDialogBox("👺", "Nariko", "Achei voce!!! Saia daqui seu reprovaddddoooo!");
 
-    // ANIMAÇÃO DO FOGO
+    // Animação do Fogo da Cutscene
     strcpy(fire->sprite[0], "🔥");
-    fire->pos.x = initialGridPos.x + (STEP * 3); 
+    fire->pos.x = initialGridPos.x + (step * 3); 
     fire->pos.y = initialGridPos.y + 4;       
 
-    while(fire->pos.x > initialGridPos.x - 5) {
-        printText(" ", fire->pos.x, fire->pos.y, WHITE, WHITE);
+    // Move até a borda esquerda da grid
+    int limitX = initialGridPos.x - 2;
+
+    while(fire->pos.x > limitX) {
+        printText("  ", fire->pos.x, fire->pos.y, WHITE, WHITE); // Limpa rastro
         fire->pos.x -= 2; 
         
-        // Efeito colateral (Apaga grid)
+        // Apaga grid ao passar
         if(fire->pos.x < initialGridPos.x + 12) battleGrid->grid[1][2] = reset;
         if(fire->pos.x < initialGridPos.x + 6)  battleGrid->grid[1][1] = reset; 
         if(fire->pos.x < initialGridPos.x)      battleGrid->grid[1][0] = reset;
@@ -151,14 +184,16 @@ void initSecondBattleRoom(Entity *player, int *playerLife)
         showEntity(nariko);
         showEntity(player);
         showEntity(ghost); 
-        printText("🔥", fire->pos.x, fire->pos.y, YELLOW, RED);
+        
+        if(fire->pos.x > limitX) 
+            printText("🔥", fire->pos.x, fire->pos.y, YELLOW, RED);
         
         screenUpdate();
         setSleep(1);
     }
     
     // Mata fantasma
-    printText(" ", ghost->pos.x, ghost->pos.y, WHITE, WHITE); 
+    printText("  ", ghost->pos.x, ghost->pos.y, WHITE, WHITE); 
     strcpy(ghost->sprite[0], " "); 
     ghost->collision.collisionType = collisionNone;
     ghost->pos.x = 0; 
@@ -169,7 +204,8 @@ void initSecondBattleRoom(Entity *player, int *playerLife)
 
     screenInit(1);
     showBattleRoom(battleGrid, initialGridPos);
-    showEntities(&entityArray);
+    showEntities(&bearers); // Paredes voltam
+    showEntity(nariko);
     showEntity(player);
     screenUpdate();
 
@@ -177,21 +213,16 @@ void initSecondBattleRoom(Entity *player, int *playerLife)
 
     // --- 4. LOOP JOGÁVEL ---
     
-    char ch = 0;
-    Action action = actionNone;
-
-    // Define limites para a IA da Nariko
-    Vector2D narikoMin = {nariko->pos.x, initialGridPos.y - 2};
-    Vector2D narikoMax = {nariko->pos.x, initialGridPos.y + (STEP*3)};
+    int limitFireX = initialGridPos.x - 2; // Limite esquerdo da grid
 
     while (!endBattleCondition(battleGrid, battleGridCondition) && *playerLife > 0)
     {
         if (keyhit())
         {
             ch = readch();
-            setEntityVel(player, keyboardVelHandler(ch, STEP));
+            setEntityVel(player, keyboardVelHandler(ch, step));
             action = keyboardActionHandler(ch);
-            checkCollision(player, &entityArray); 
+            checkCollision(player, &bearers); // Colide com as paredes
         }
 
         if (timerTimeOver())
@@ -199,36 +230,47 @@ void initSecondBattleRoom(Entity *player, int *playerLife)
             showMenu(&ch); 
 
             showBattleRoom(battleGrid, initialGridPos);
-            Vector2D playerGridPos = getGridPos(player, (Vector2D[]){{0,0}}, initialGridPos, STEP);
+            
+            Vector2D playerGridPos = getGridPos(player, gridVertex, initialPlayerPos, step);
+            
             actionRoom(action, battleGrid, playerGridPos);
 
-            // IA da Nariko
-            narikoAI(nariko, fire, narikoMin, narikoMax);
+            // Lógica do Tiro
+            narikoShooting(nariko, fire, limitFireX);
             
-            // Colisão com Fogo (Check manual)
+            // Colisão com Fogo
             if (player->pos.y == fire->pos.y && 
                 player->pos.x >= fire->pos.x && player->pos.x <= fire->pos.x + 2) 
             {
                 *playerLife -= 1;
                 playerLoseLife(player);
-                printText(" ", fire->pos.x, fire->pos.y, WHITE, WHITE);
-                fire->pos.x = 0; 
+                printText("  ", fire->pos.x, fire->pos.y, WHITE, WHITE);
+                fire->pos.x = -10; 
             }
 
-            showEntities(&entityArray);
+            showEntities(&bearers);
+            showEntityNoMove(nariko); // Nariko estática
             showEntity(player);
             screenUpdate();
         }
     }
 
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntities(&bearers);
+    showEntityNoMove(nariko);
+    showEntity(player);
+    screenUpdate();
+    setSleep(10);
+
     // --- 5. FIM ---
-    
     if (*playerLife > 0) {
         setSleep(10);
         showDialogBox(player->sprite[0], "Nerd", "Ufa... A logica venceu de novo!");
         showDialogBox("👺", "Nariko", "Impossivel! Retirada!");
     } else {
         showDialogBox("👺", "Nariko", "REPROVADOOO!");
+        // Reinicia a sala (recursão controlada para retry)
+        // initSecondBattleRoom(player, playerLife); // Opcional: Reiniciar ao perder
     }
 
     destroyGrid(battleGrid);
@@ -236,34 +278,30 @@ void initSecondBattleRoom(Entity *player, int *playerLife)
 }
 
 /**
- * @brief IA Simples da Nariko
+ * @brief Controla apenas o tiro da Nariko
  */
-void narikoAI(Entity *nariko, Entity *fire, Vector2D minPos, Vector2D maxPos) 
+void narikoShooting(Entity *nariko, Entity *fire, int limitX) 
 {
-    // 1. Movimento da Nariko
-    if (rand() % 5 == 0) { 
-        nariko->vel.y = (rand() % 3) - 1; 
-    }
-    
-    if (nariko->pos.y <= minPos.y) nariko->vel.y = 1;
-    if (nariko->pos.y >= maxPos.y) nariko->vel.y = -1;
-    
-    printText(" ", nariko->pos.x, nariko->pos.y, WHITE, WHITE); 
-    nariko->pos.y += nariko->vel.y;
-
-    // 2. Tiro de Fogo
-    if (fire->pos.x == 0) {
-        if (rand() % 20 == 0) { 
+    // Tiro de Fogo
+    if (fire->pos.x < 0) { 
+        if (rand() % 30 == 0) { // Chance de atirar
             fire->pos.x = nariko->pos.x - 2;
-            fire->pos.y = nariko->pos.y; 
+            fire->pos.y = nariko->pos.y; // Mesma linha da Nariko
             strcpy(fire->sprite[0], "🔥");
         }
     } else {
-        printText(" ", fire->pos.x, fire->pos.y, WHITE, WHITE); 
+        // Limpa posição antiga
+        printText("  ", fire->pos.x, fire->pos.y, WHITE, WHITE);
+        
         fire->pos.x -= FIRE_SPEED;
         
-        if (fire->pos.x <= 2) {
-            fire->pos.x = 0;
+        // Se bateu no limite esquerdo, reseta
+        if (fire->pos.x <= limitX) {
+            printText("  ", fire->pos.x, fire->pos.y, WHITE, WHITE); // Garante limpeza
+            fire->pos.x = -10; 
+        } else {
+            // Desenha na nova posição
+            printText("🔥", fire->pos.x, fire->pos.y, YELLOW, RED);
         }
     }
 }

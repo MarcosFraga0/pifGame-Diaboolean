@@ -49,10 +49,9 @@ int main()
   // --- FLUXO DO JOGO ---
   
   // 1. Sala da Copa (Tutorial Movimento)
-  initCopaRoom(&player, &playerLife);
+  //initCopaRoom(&player, &playerLife);
   
   // 2. Limpa tela e inicia Batalha 1 (Tutorial AND com Nariko)
-  clearScreen();
   initSecondBattleRoom(&player, &playerLife); 
 
   // stop config

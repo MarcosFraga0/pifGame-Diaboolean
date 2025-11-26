@@ -14,7 +14,7 @@
 // simbolos lógicos
 char NEGATION[] = "-¬";
 char CONDITION[] = "->";
-char CONJUNCTION[] = " ^";
+char CONJUNCTION[] = "^";
 
 /**
  * @brief create new battle grid
