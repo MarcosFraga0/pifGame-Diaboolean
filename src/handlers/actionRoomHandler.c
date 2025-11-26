@@ -128,6 +128,48 @@ void negationHandler(Action actionPlayer, Vector2D negationPos, Vector2D playerG
 }
 
 /**
+ * @brief apply conjunction logic (AND)
+ * @param {Action p} first value
+ * @param {Action q} second value
+ * @return {Action} Result action (setTrue or setFalse)
+ */
+
+Action conjunctionLogic(Action p, Action q)
+{
+    // Se qualquer um for Falso, o resultado é Falso
+    if (p == setFalse || q == setFalse) return setFalse;
+    // Se ambos forem Verdadeiros, o resultado é Verdadeiro
+    if (p == setTrue && q == setTrue) return setTrue;
+    return actionNone;
+}
+
+/**
+ * @brief applyer symbol conjunction effects
+ * @param {Vector2D conjunctionPos} conjunction position in grid
+ * @param {Vector2D playerGridPos} player position in grid pos
+ * @param {BattleGrid *battleGrid} battle grid pointer
+ */
+
+void conjunctionHandler(Vector2D pos, Vector2D playerGridPos, BattleGrid *battleGrid){
+    int y = pos.y;
+    int x = pos.x;
+
+    // Vertical (Cima e Baixo -> Resultado na Direita) 
+    if((playerGridPos.y == y - 1 || playerGridPos.y == y + 1) && y > 0 && y < battleGrid->rows - 1 && x < battleGrid->cols - 1){
+        Action top = battleGrid->grid[y - 1][x];
+        Action bottom = battleGrid->grid[y + 1][x];
+        battleGrid->grid[y][x + 1] = conjunctionLogic(top, bottom);
+    }
+
+    // Horizontal (Esq e Dir -> Resultado em Baixo)
+    if((playerGridPos.x == x - 1 || playerGridPos.x == x + 1) && x > 0 && x < battleGrid->cols - 1 && y < battleGrid->rows - 1){
+        Action left = battleGrid->grid[y][x - 1];
+        Action right = battleGrid->grid[y][x + 1];
+        battleGrid->grid[y + 1][x] = conjunctionLogic(left, right);
+    }
+}
+
+/**
  * @brief handler actions of room
  * @param {Action actionPlayer} player action
  * @param {Vector2D playerGridPos} player position in grid pos
@@ -149,6 +191,9 @@ void actionRoomHandler(Action actionPlayer, Vector2D playerGridPos, BattleGrid *
                 break;
             case condition:
                 conditionHandler(actionPos, playerGridPos, battleGrid);
+                break;
+            case conjunction:
+                conjunctionHandler(actionPos, playerGridPos, battleGrid);
                 break;
             default:
                 break;

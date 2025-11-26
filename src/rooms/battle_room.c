@@ -14,6 +14,7 @@
 // simbolos lógicos
 char NEGATION[] = "-¬";
 char CONDITION[] = "->";
+char CONJUNCTION[] = "^";
 
 /**
  * @brief create new battle grid
@@ -218,6 +219,9 @@ void showBattleRoom(BattleGrid *battleGrid, Vector2D initialGridPos)
                 break;
             case condition:
                 strcpy(text, CONDITION);
+                break;
+            case conjunction:
+                strcpy(text, CONJUNCTION);
                 break;
             default:
                 break;

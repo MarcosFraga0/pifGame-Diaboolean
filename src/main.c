@@ -6,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include <locale.h> 
 
 #include "keyboard.h"
 #include "screen.h"
@@ -19,16 +20,21 @@
 #include "rooms/second_room.h"
 #include "rooms/desk_corridor.h"
 #include "rooms/four_room.h"
+#include "rooms/copa_room.h"
+#include "rooms/second_battle_room.h" // <--- Adicionado o header da sua nova sala
 
 #define CLOCK 100
 
 int main()
 {
+  // Configura o locale para aceitar caracteres especiais/emojis
+  setlocale(LC_ALL, ""); 
+
   // main entity
   Entity player = {
     {4, 8},
     {0, 0},
-    {1, 1},
+    {2, 1}, 
     {0, collisionNone},
     {"🤓"},
     WHITE,
