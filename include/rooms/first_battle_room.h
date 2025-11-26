@@ -1,6 +1,6 @@
 /**
  * @file first_battle_room.h
- * @author Vinicius Braz (gitviini)
+ * @author Joanna
  * @date Nov, 24th 2025
  * @brief first battle
  */

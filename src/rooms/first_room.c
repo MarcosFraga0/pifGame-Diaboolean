@@ -537,7 +537,7 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     showDialogBox("🧑", "Big Lherme", "ISSO EH CESAR SCHOOL!");
     showDialogBox("🧑", "Big Lherme", "REPROVE!!!");
     // right flame
-    printText("🔥", teacherBigLherme->pos.x + 6, teacherBigLherme->pos.y, WHITE, WHITE);
+    printText("🔥", teacherBigLherme->pos.x + 6, teacherBigLherme->pos.y + 1, WHITE, WHITE);
     screenUpdate();
     setSleep(2);
     // top flame
@@ -545,10 +545,11 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     screenUpdate();
     setSleep(2);
     // left flame
-    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y, WHITE, WHITE);
+    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 1, WHITE, WHITE);
     screenUpdate();
     setSleep(2);
     setSleep(10);
 
     destroyGrid(battleGrid);
+    clearScreen();
 }

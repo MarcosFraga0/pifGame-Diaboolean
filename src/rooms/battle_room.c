@@ -53,6 +53,13 @@ BattleGrid *createGrid(int rows, int cols){
         return NULL;
     }
 
+    // fill grid
+    for(int y = 0; y < rows; y++){
+        for(int x = 0; x < cols; x++){
+            grid[y][x] = actionNone;
+        }
+    }
+
     // if it is allocated, set attributes
     battleGrid->rows = rows;
     battleGrid->cols = cols;
@@ -199,7 +206,7 @@ void showBattleRoom(BattleGrid *battleGrid, Vector2D initialGridPos)
                 bg = MAGENTA;
                 break;
             default:
-                bg = WHITE;
+                bg = MAGENTA;
                 break;
             }
 

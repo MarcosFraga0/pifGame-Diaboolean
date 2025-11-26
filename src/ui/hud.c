@@ -12,13 +12,12 @@
  * @brief show player's hearts at top left window
  */
 void showPlayerHeart(int playerLife){
-    int maxPlayerLife = 4;
     // TOP LEFT
     Vector2D initHeartHudPos = {MINX + 2, MINY + 1};
 
     screenGotoxy(initHeartHudPos.x, initHeartHudPos.y);
     // clear
-    for(int x = 0; x < maxPlayerLife; x++){
+    for(int x = 0; x < playerLife + 1; x++){
         printf("   ");
     }
 
@@ -55,4 +54,5 @@ void showSouls(int playerSouls){
 void showHud(int *playerLife, int *playerSouls){
     showPlayerHeart(*playerLife);
     showSouls(*playerSouls);
+    screenUpdate();
 }
