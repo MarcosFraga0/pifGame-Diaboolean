@@ -89,13 +89,13 @@ int main()
   }
   if (playerRoom == 4)
   {
-    screenClear();
-    screenInit(1);
-    initFourRoom(&player, &playerLife, &playerSouls);
     if (playerLife == 0)
     {
       initDeadRoom(&player, &playerLife, &playerSouls);
     }
+    screenClear();
+    screenInit(1);
+    initFourRoom(&player, &playerLife, &playerSouls);
   }
 
   // stop config
