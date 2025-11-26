@@ -17,6 +17,7 @@
 #include "rooms/first_room.h"
 #include "rooms/first_battle_room.h"
 #include "rooms/second_room.h"
+#include "rooms/desk_corridor.h"
 #include "rooms/four_room.h"
 
 #define CLOCK 100
