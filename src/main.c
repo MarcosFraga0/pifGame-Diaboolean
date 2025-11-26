@@ -21,7 +21,7 @@
 #include "rooms/desk_corridor.h"
 #include "rooms/four_room.h"
 #include "rooms/copa_room.h"
-#include "rooms/second_battle_room.h" // <--- Adicionado o header da sua nova sala
+#include "rooms/second_battle_room.h"
 
 #define CLOCK 100
 
@@ -54,12 +54,11 @@ int main()
   initFirstRoom(&player, &playerLife, &playerSouls);
   initFirstBattleRoom(&player, &playerLife, &playerSouls);
   initDeadRoom(&player, &playerLife, &playerSouls);
-  
-  /* clearScreen();
   clearScreen();
   initSecondRoom(&player, &playerLife, &playerSouls);
-  initFourRoom(&player, &playerLife);
-  clearScreen(); */
+  initDeadRoom(&player, &playerLife, &playerSouls);
+  clearScreen();
+  initSecondBattleRoom(&player, &playerLife);
 
   // stop config
   screenDestroy();
