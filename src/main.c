@@ -16,6 +16,7 @@
 #include "handlers/fileHandler.h"
 #include "handlers/keyboardHandler.h"
 #include "rooms/dead_room.h"
+#include "ui/start_menu.h"
 #include "rooms/first_room.h"
 #include "rooms/first_battle_room.h"
 #include "rooms/second_battle_room.h"
@@ -52,6 +53,8 @@ int main()
   keyboardInit();
   timerInit(CLOCK);
   screenUpdate();
+
+  startMenu(&playerLife, &playerSouls, &playerRoom);
 
   if (playerRoom == 1)
   {
