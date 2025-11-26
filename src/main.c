@@ -16,6 +16,7 @@
 #include "rooms/first_room.h"
 #include "rooms/first_battle_room.h"
 #include "rooms/second_room.h"
+#include "rooms/desk_corridor.h"
 #include "rooms/four_room.h"
 
 #define CLOCK 100
@@ -43,9 +44,10 @@ int main()
   screenUpdate();
 
   // game rooms
-  /* initFirstRoom(&player, &playerLife, &playerSouls); */
-  initFirstBattleRoom(&player, &playerLife, &playerSouls);
+  /*initFirstRoom(&player, &playerLife, &playerSouls);*/
+  /*initFirstBattleRoom(&player, &playerLife, &playerSouls);*/
 
+  initDeskCorridor(&player, &playerLife, &playerSouls);
   /* clearScreen();
   initSecondRoom(&player, &playerLife);
   clearScreen();
