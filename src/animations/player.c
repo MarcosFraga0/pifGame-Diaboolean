@@ -27,10 +27,23 @@ void playerLoseLife(Entity *player)
 void playerAddLife(Entity *player)
 {
     // under player
-    int x = player->pos.x;
+    int x = player->pos.x - 1;
     int y = player->pos.y - 1;
 
     printText("+♥️", x, y, WHITE, WHITE);
+    screenUpdate();
+    setSleep(5);
+    printText("   ", x, y, WHITE, WHITE);
+    screenUpdate();
+}
+
+void playerAddSoul(Entity *player)
+{
+    // under player
+    int x = player->pos.x - 1;
+    int y = player->pos.y - 1;
+
+    printText("+👻", x, y, WHITE, WHITE);
     screenUpdate();
     setSleep(5);
     printText("   ", x, y, WHITE, WHITE);

@@ -3,261 +3,308 @@
  * @author Vinicius Braz (gitviini)
  * @date Nov, 19th 2025
  */
+
 #include "string.h"
 
 #include "rooms/four_room.h"
 
-#define TRAP_TICK 2
-
-void lifeAnimation(Entity *entity);
-
 /**
  * @brief Init four room logic
  * @param {Entity *player} player principal
- * @param {int playerLife} vida do player principal
+ * @param {int *playerLife} vida do player principal
+ * @param {int *playerSouls} almas do player principal
  */
-void initFourRoom(Entity *player, int *playerLife)
+void initFourRoom(Entity *player, int *playerLife, int *playerSouls)
 {
-    // initial player pos and reset player
-    Vector2D playerInitialPos = {MINX + 1, MINY + 5};
-    resetEntity(player, playerInitialPos);
+    // init positions
+    Vector2D roomSize = {50, 14};
+    Vector2D initRoomPos = {MAXX / 2 - roomSize.x / 2, MAXY / 2 - roomSize.y / 2};
+    Vector2D initPlayerPos = {initRoomPos.x + roomSize.x - roomSize.x / 4 + 2, initRoomPos.y + roomSize.y - 1};
+    int step = 2;
 
-    // set player steps
-    const int playerStep = 2;
-
-    // set don't show secret room and stop trap timer
-    int showSecretRoom = 0;
-    int trap_timer = 0;
-
-    Entity elementsContent[] =
+    Entity roomContent[] = {
+        /* ELEMENTS */
+        // door
         {
-            // life coffee
-            {{(MAXX / 2) + (MAXX / 8), playerInitialPos.y},
-             {0, 0},
-             {1, 1},
-             {0, life},
-             {"-"},
-             WHITE,
-             BROWN},
-            // door
-            {{MAXX - 4, MAXY / 2},
-             {0, 0},
-             {1, 1},
-             {0, bearer},
-             {"🚪"},
-             WHITE,
-             WHITE},
-            // secret door (trigger secret room)
-            {{MAXX / 2 - 2, playerInitialPos.y},
-             {0, 0},
-             {1, 1},
-             {0, trigger},
-             {"🚪"},
-             WHITE,
-             WHITE},
-            // fire trap
-            {{MINX, -10},
-             {0, 0},
-             {MAXX * 2, 0},
-             {0, damage},
-             {"🔥"},
-             WHITE,
-             WHITE},
-        };
-
-    int elementsLen = sizeof(elementsContent) / sizeof(elementsContent[0]);
-
-    EntityArray elementsArray = {
-        elementsLen,
-        elementsContent};
-
-    Entity bearersContent[] = {
-        {{MINX, MINY},
-         {0, 0},
-         {MAXX - MINX, 4},
-         {0, bearer},
-         {"-"},
-         WHITE,
-         BROWN},
-        {{MINX, 8},
-         {0, 0},
-         {20, MAXY - 7},
-         {0, bearer},
-         {"-"},
-         WHITE,
-         BROWN},
-        {{MAXX / 2, MINY + 4},
-         {0, 0},
-         {(MAXX / 2) / 2, 6},
-         {0, bearer},
-         {"-"},
-         WHITE,
-         BROWN},
-        {{MAXX / 2 + (MAXX / 2) / 2, MINY + 4},
-         {0, 0},
-         {(MAXX / 2) / 2, 6},
-         {0, bearer},
-         {"-"},
-         WHITE,
-         BROWN},
-        {{MINX + 20, MAXY - 9 - MINY},
-         {0, 0},
-         {MAXX - MINX - 20, MAXY - (MAXY - 10 - MINY)},
-         {0, bearer},
-         {"-"},
-         WHITE,
-         BROWN},
+            {initRoomPos.x + roomSize.x - 2, initRoomPos.y + 2},
+            {0, 0},
+            {1, 1},
+            {0, bearer},
+            {"🚪"},
+            WHITE,
+            WHITE
+        },
+        // student (topLeft)
+        {
+            {initRoomPos.x + roomSize.x / 6, initRoomPos.y + 3},
+            {0, 0},
+            {1, 1},
+            {0, bearer},
+            {"🤧"},
+            WHITE,
+            WHITE
+        },
+        // student (bottomLeft)
+        {
+            {initRoomPos.x + 4, initRoomPos.y + roomSize.y - 4},
+            {0, 0},
+            {1, 1},
+            {0, bearer},
+            {"😪"},
+            WHITE,
+            WHITE
+        },
+        // soul (bottomLeft)
+        {
+            {initRoomPos.x + 8, initRoomPos.y + roomSize.y - 2},
+            {0, 0},
+            {1, 1},
+            {0, bearer},
+            {"👻"},
+            WHITE,
+            WHITE
+        },
+        // soul (middleTopLeft)
+        {
+            {initRoomPos.x + roomSize.x / 2 - 7, initRoomPos.y + roomSize.y / 2 - 1},
+            {0, 0},
+            {1, 1},
+            {0, bearer},
+            {"👻"},
+            WHITE,
+            WHITE
+        },
+        // soul (middleTopRight)
+        {
+            {initRoomPos.x + roomSize.x / 2 - 1, initRoomPos.y + roomSize.y / 2 - 1},
+            {0, 0},
+            {1, 1},
+            {0, bearer},
+            {"👻"},
+            WHITE,
+            WHITE
+        },
+        /* BEARERS */
+        // top
+        {
+            {initRoomPos.x, initRoomPos.y},
+            {0, 0},
+            {roomSize.x, 1},
+            {0, bearer},
+            {"-"},
+            WHITE,
+            BROWN,
+        },
+        // bottom
+        {
+            {initRoomPos.x, initRoomPos.y + roomSize.y},
+            {0, 0},
+            {roomSize.x, 1},
+            {0, bearer},
+            {"-"},
+            WHITE,
+            BROWN,
+        },
+        // bottom
+        {
+            {initRoomPos.x + roomSize.x - roomSize.x / 4 , initRoomPos.y + roomSize.y},
+            {0, 0},
+            {roomSize.x / 8, 1},
+            {0, bearer},
+            {"-"},
+            WHITE,
+            WHITE,
+        },
+        // left
+        {
+            {initRoomPos.x, initRoomPos.y},
+            {0, 0},
+            {2, roomSize.y + 1},
+            {0, bearer},
+            {"⼁"},
+            WHITE,
+            BROWN,
+        },
+        // left
+        {
+            {initRoomPos.x, initRoomPos.y + roomSize.y / 2 - roomSize.y / 8},
+            {0, 0},
+            {2, roomSize.y / 4},
+            {0, bearer},
+            {"⼁"},
+            WHITE,
+            WHITE,
+        },
+        // right
+        {
+            {initRoomPos.x + roomSize.x, initRoomPos.y},
+            {0, 0},
+            {2, roomSize.y + 1},
+            {0, bearer},
+            {"⼁"},
+            WHITE,
+            BROWN,
+        },
+        /* PUFFS */
+        // puff (middleLeft)
+        {
+            {initRoomPos.x + roomSize.x / 2 - 7, initRoomPos.y + roomSize.y / 2},
+            {0, 0},
+            {4, 2},
+            {0, bearer},
+            {". "},
+            WHITE,
+            MAGENTA
+        },
+        // puff (middleRight)
+        {
+            {initRoomPos.x + roomSize.x / 2 - 1, initRoomPos.y + roomSize.y / 2},
+            {0, 0},
+            {4, 2},
+            {0, bearer},
+            {". "},
+            WHITE,
+            RED
+        },
+        /* TABLES */
+        // mesa (topLeft)
+        {
+            {initRoomPos.x + 4, initRoomPos.y + 2},
+            {0, 0},
+            {4, 2},
+            {0, bearer},
+            {" "},
+            WHITE,
+            MAGENTA
+        },
+        // pe da mesa
+        {
+            {initRoomPos.x + 4, initRoomPos.y + 4},
+            {0, 0},
+            {4, 1},
+            {0, collisionNone},
+            {"ˈ  ˈ"},
+            LIGHTGRAY,
+            WHITE
+        },
+        // mesa (bottomLeft)
+        {
+            {initRoomPos.x + 4, initRoomPos.y + roomSize.y - 3},
+            {0, 0},
+            {4, 2},
+            {0, bearer},
+            {" "},
+            WHITE,
+            BROWN
+        },
+        // pe da mesa
+        {
+            {initRoomPos.x + 4, initRoomPos.y + roomSize.y - 1},
+            {0, 0},
+            {4, 1},
+            {0, collisionNone},
+            {"ˈ  ˈ"},
+            LIGHTGRAY,
+            WHITE
+        },
+        // coffee
+        {
+            {initRoomPos.x + roomSize.x / 8 + 2, initRoomPos.y + 2},
+            {0, 0},
+            {1, 1},
+            {0, trigger},
+            {"☕"},
+            WHITE,
+            WHITE
+        },
     };
 
-    int bearersLen = sizeof(bearersContent) / sizeof(bearersContent[0]);
+    int roomContentLen = sizeof(roomContent) / sizeof(roomContent[0]);
 
-    EntityArray bearersArray = {
-        bearersLen,
-        bearersContent};
+    Entity *door = &roomContent[0];
 
-    Entity secretBearersContent[] = {
-        bearersContent[0],
-        bearersContent[1],
-        bearersContent[3],
-        bearersContent[4],
-        // secret room
-        // background
-        {{MAXX / 2, MINY + 4},
-         {0, 0},
-         {(MAXX / 2) / 2, 6},
-         {0, collisionNone},
-         {" "},
-         WHITE,
-         WHITE},
-        // secret room walls
-        // topLeft bearer
-        {{MAXX / 2, MINY + 4},
-         {0, 0},
-         {2, 1},
-         {0, bearer},
-         {"-"},
-         WHITE,
-         BROWN},
-        // bottomLeft bearer
-        {{MAXX / 2, MINY + 4 + 2},
-         {0, 0},
-         {2, 3},
-         {0, bearer},
-         {"-"},
-         WHITE,
-         BROWN},
-        // bottomLeftToRight bearer
-        {{MAXX / 2, MINY + 3 + 6},
-         {0, 0},
-         {(MAXX / 2) / 2, 1},
-         {0, bearer},
-         {"-"},
-         WHITE,
-         BROWN},
+    char studentsDialogs[2][100] = {
+        "Estou doente, nao vou fazer prova hoje!",
+        "Bem que podia ter prostesto na prefeitura hoje?!",
+    };
+    Entity *students[] = {
+        &roomContent[1],
+        &roomContent[2],
     };
 
-    int secretBearersLen = sizeof(secretBearersContent) / sizeof(secretBearersContent[0]);
+    char soulsDialogs[3][100] = {
+        "Desisto de PIF, leve minha alma com voce!",
+        "Nao tomei cafe e olha no que deu?!",
+        "Nao entendo Logica! por favor me ajude!"
+    };
+    Entity *souls[] = {
+        &roomContent[3],
+        &roomContent[4],
+        &roomContent[5],
+    };
 
-    EntityArray secretBearersArray = {
-        secretBearersLen,
-        secretBearersContent};
+    Entity *coffee = &roomContent[roomContentLen - 1];
 
-    // show entities layers
-    screenInit(1);
+    EntityArray roomArray = {
+        roomContentLen,
+        roomContent};
+
+    resetEntity(player, initPlayerPos);
+
+    showEntities(&roomArray);
     showEntity(player);
-    showEntities(&bearersArray);
-    showEntities(&elementsArray);
-    screenUpdate();
 
-    // enquanto player não chega na porta
     char ch = 0;
-    while (!elementsContent[1].collision.isColliding)
+
+    while (1)
     {
         if (keyhit())
         {
             ch = readch();
-            setEntityVel(player, keyboardVelHandler(ch, playerStep));
-            checkCollision(player, &elementsArray);
-            checkCollision(player, showSecretRoom ? &secretBearersArray : &bearersArray);
+            setEntityVel(player, keyboardVelHandler(ch, step));
+            checkCollision(player, &roomArray);
         }
-        
+
         if (timerTimeOver())
         {
             showMenu(&ch);
-            // reset char handle
-            ch = 0;
-            
-            // show elements and player
-            screenInit(1);
-            showEntities(showSecretRoom ? &secretBearersArray : &bearersArray);
-            showEntities(&elementsArray);
+            showHud(playerLife, playerSouls);
+
+            showEntities(&roomArray);
             showEntity(player);
-            screenUpdate();
 
-            // if player takes in secret door, show secret room and update entities
-            if (elementsContent[2].collision.isColliding == 1)
-            {
-                showSecretRoom = 1;
-                // set life coffee in entity sprite
-                strcpy(elementsContent[0].sprite[0], "☕");
-                elementsContent[0].bg = WHITE;
-                // set secret door as collisionNone
-                strcpy(elementsContent[2].sprite[0], " ");
-                elementsContent[2].collision.isColliding = 0;
-                elementsContent[2].collision.collisionType = collisionNone;
-
-                showEntities(&secretBearersArray);
-                showEntities(&elementsArray);
-                showEntity(player);
-                screenUpdate();
-
-                showDialogBox(player->sprite[0], "Nerd", "OH! Uma sala secreta.");
-                showEntities(&secretBearersArray);
-                screenUpdate();
+            // door
+            if(door->collision.isColliding){
+                break;
             }
 
-            // if get item, show animation
-            if (elementsContent[0].collision.isColliding == 1)
-            {
-                strcpy(elementsContent[0].sprite[0], " ");
-                elementsContent[0].collision.isColliding = 0;
-                elementsContent[0].collision.collisionType = collisionNone;
-
-                
-                playerLife++;
+            // coffee
+            if(coffee->collision.isColliding){
+                coffee->len.y = 0;
+                coffee->collision.isColliding = 0;
+                *playerLife += 1;
                 playerAddLife(player);
-
-                showDialogBox("🧠", "Celebro", "Aee, encontrei mais cafe do cesar! **que som estranho?? ");
-
-                showDialogBox("⁉️", "Barulho", "Voce ativou alguma armadilha, CORRA!!!");
-                showEntities(&secretBearersArray);
-                screenUpdate();
+                showDialogBox(students[0]->sprite[0], "Bolsista", "Ei! Nao tome meu cafe!");
             }
 
-            // if get item, activate trap
-            if (elementsContent[0].collision.collisionType == collisionNone)
-            {
-                trap_timer++;
+            // students
+            for(int i = 0; i < 2; i++){
+                if(students[i]->collision.isColliding){
+                    students[i]->collision.isColliding = 0;
+                    showDialogBox(students[i]->sprite[0], "Bolsista", studentsDialogs[i]);
+                }
             }
 
-            if (trap_timer == TRAP_TICK)
-            {
-                // set trap
-                elementsContent[3].len.y = 1;
-                // continua descendo enquanto não chega ao fim da tela
-                elementsContent[3].vel.y = elementsContent[3].pos.y < MAXY ? 1 : 0;
-                trap_timer = 0;
-                checkCollision(player, &elementsArray);
-            }
-
-            if (elementsContent[3].collision.isColliding)
-            {
-                playerLife--;
-                playerLoseLife(player);
-
-                // reset room
-                initFourRoom(player, playerLife);
-                return;
+            // souls
+            for(int i = 0; i < 3; i++){
+                if(souls[i]->collision.isColliding){
+                    souls[i]->collision.isColliding = 0;
+                    showDialogBox(souls[i]->sprite[0], "Desistente", soulsDialogs[i]);
+                    souls[i]->len.y = 0;
+                    printText("  ", souls[i]->pos.x, souls[i]->pos.y, WHITE, WHITE);
+                    *playerSouls += 1;
+                    playerAddSoul(player);
+                }
             }
         }
     }

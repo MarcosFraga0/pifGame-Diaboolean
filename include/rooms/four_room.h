@@ -17,7 +17,8 @@
 #include "entities/entity.h"
 #include "ui/dialog_box.h"
 #include "ui/menu.h"
+#include "ui/hud.h"
 
-void initFourRoom(Entity *player, int *playerLife);
+void initFourRoom(Entity *player, int *playerLife, int *playerSouls);
 
 #endif

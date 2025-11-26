@@ -22,6 +22,7 @@
 #include "rooms/second_room.h"
 #include "rooms/third_room.h"
 #include "rooms/third_battle_room.h"
+#include "rooms/four_room.h"
 
 #define CLOCK 100
 
@@ -86,10 +87,15 @@ int main()
     initThirdRoom(&player, &playerLife, &playerSouls);
     initThridBattleRoom(&player, &playerLife, &playerSouls);
   }
-  
-  if (playerLife == 0)
+  if (playerRoom == 4)
   {
-    initDeadRoom(&player, &playerLife, &playerSouls);
+    if (playerLife == 0)
+    {
+      initDeadRoom(&player, &playerLife, &playerSouls);
+    }
+    screenClear();
+    screenInit(1);
+    initFourRoom(&player, &playerLife, &playerSouls);
   }
 
   // stop config
