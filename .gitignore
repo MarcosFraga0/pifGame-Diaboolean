@@ -1,6 +1,7 @@
 # build files
 /build/main
 
+info.txt
 .github
 
 # Prerequisites

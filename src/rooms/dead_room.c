@@ -180,8 +180,6 @@ void initDeadRoom(Entity *player, int *playerLife, int *playerSouls)
         WHITE,
         WHITE};
 
-    *playerLife = 0;
-
     screenClear();
     screenInit(1);
     showEntities(&roomArray);
