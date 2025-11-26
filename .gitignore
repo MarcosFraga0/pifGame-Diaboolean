@@ -5,6 +5,7 @@ build/
 
 info.txt
 .github
+.vscode/
 
 # Prerequisites
 *.d
