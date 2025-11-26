@@ -71,7 +71,7 @@ void showMenu(char *ch){
     int selectedOption = 0;
 
     // if click ESC again, close menu
-    while(*ch != 27){
+    while(1){
         if(keyhit()){
             *ch = readch();
         }
@@ -82,12 +82,11 @@ void showMenu(char *ch){
             // if click ENTER, exec current option handle
             case 10:
                 // if click continue
-                if(selectedOption == 0){
-                    *ch = 27;
-                    continue;
-                }
-
                 optionsHandlers[selectedOption]();
+
+                if(selectedOption == 0){
+                    return;
+                }
                 break;
             // if click UP, select option above
             case 'w':

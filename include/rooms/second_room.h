@@ -13,7 +13,9 @@
 #include "handlers/timeHandler.h"
 #include "handlers/screenHandler.h"
 #include "ui/dialog_box.h"
+#include "ui/menu.h"
+#include "ui/hud.h"
 
-void initSecondRoom(Entity *player, int *playerLife);
+void initSecondRoom(Entity *player, int *playerLife, int *playerSouls);
 
 #endif

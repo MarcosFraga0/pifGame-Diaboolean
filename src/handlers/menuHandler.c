@@ -14,7 +14,8 @@
  */
 void continueOption()
 {
-    // do nothing
+    clearScreen();
+    screenInit(1);
 }
 
 /**

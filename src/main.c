@@ -14,7 +14,9 @@
 #include "entities/entity.h"
 #include "handlers/keyboardHandler.h"
 #include "rooms/first_room.h"
+#include "rooms/first_battle_room.h"
 #include "rooms/second_room.h"
+#include "rooms/desk_corridor.h"
 #include "rooms/four_room.h"
 
 #define CLOCK 100
@@ -33,6 +35,7 @@ int main()
   };
 
   int playerLife = 3;
+  int playerSouls = 1;
 
   // init config
   screenInit(1);
@@ -41,12 +44,15 @@ int main()
   screenUpdate();
 
   // game rooms
-  initFirstRoom(&player, &playerLife);
-  clearScreen();
+  /*initFirstRoom(&player, &playerLife, &playerSouls);*/
+  /*initFirstBattleRoom(&player, &playerLife, &playerSouls);*/
+
+  initDeskCorridor(&player, &playerLife, &playerSouls);
+  /* clearScreen();
   initSecondRoom(&player, &playerLife);
   clearScreen();
   initFourRoom(&player, &playerLife);
-  clearScreen();
+  clearScreen(); */
 
   // stop config
   screenDestroy();
