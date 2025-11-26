@@ -10,9 +10,10 @@
 #include <string.h>
 #include <ctype.h>
 #include "ui/start_menu.h"
+#include "ui/title.h"
 
 // inital pos draw startOptions
-Vector2D initStartMenuPos = {MAXX / 2, MAXY / 2};
+Vector2D initStartMenuPos = {MAXX / 2, (MAXY / 2) * 1.4f };
 
 // startOptions text
 char startOptions[3][20] = {
@@ -49,7 +50,7 @@ void startOptionHandler(int selectedOption, int *playerLife, int *playerSouls, i
 void drawstartOptions(int selectedOption)
 {
     const int padding = 2;
-    printText("DIABOOLEAN", initStartMenuPos.x - 5, initStartMenuPos.y - padding * 2, YELLOW, WHITE);
+    showText("diaboolean", (Vector2D){initStartMenuPos.x - 34, initStartMenuPos.y / 4 });
 
     for (int y = 0; y < startOptionsLen; y++)
     {
