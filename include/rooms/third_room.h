@@ -1,5 +1,5 @@
 /**
- * @file first_room.h
+ * @file thrid_room.h
  * @author Joanna
  * @date Nov, 25th 2025
  * @details Desk corridor (restore life and catch souls)
@@ -20,6 +20,6 @@
 #include "ui/menu.h"
 #include "ui/hud.h"
 
-void initDeskCorridor(Entity *player, int *playerLife, int *playerSouls);
+void initThirdRoom(Entity *player, int *playerLife, int *playerSouls);
 
 #endif

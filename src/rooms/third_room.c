@@ -6,9 +6,9 @@
 */
 
 #include <stdio.h>
-#include "rooms/desk_corridor.h"
+#include "rooms/third_room.h"
 
-void initDeskCorridor(Entity *player, int *playerLife, int *playerSouls){
+void initThirdRoom(Entity *player, int *playerLife, int *playerSouls){
     player->collision.isColliding = 0;
     player->collision.collisionType = collisionNone;
     player->pos.x = MAXX / 2 + 17;
@@ -247,8 +247,7 @@ void initDeskCorridor(Entity *player, int *playerLife, int *playerSouls){
             screenUpdate();
 
             if(door->collision.isColliding){
-                /*linha pra mostrar sala anterior*/
-
+                break;
             }
 
             if(firefighter->collision.isColliding){

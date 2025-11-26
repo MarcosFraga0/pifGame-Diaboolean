@@ -1,6 +1,8 @@
 # build files
 /build/main
 
+build/
+
 info.txt
 .github
 

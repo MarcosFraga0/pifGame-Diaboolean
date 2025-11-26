@@ -9,6 +9,6 @@
 
 #include "entities/entity.h"
 
-void initSecondBattleRoom(Entity *player, int *playerLife);
+void initSecondBattleRoom(Entity *player, int *playerLife, int *playerSouls);
 
 #endif

@@ -18,6 +18,7 @@
 #include "handlers/screenHandler.h"
 #include "ui/dialog_box.h"
 #include "ui/menu.h"
+#include "ui/hud.h"
 #include "screen.h"
 #include "keyboard.h"
 #include "animations/player.h"
@@ -27,7 +28,7 @@
 // Função auxiliar para o tiro da Nariko
 void narikoShooting(Entity *nariko, Entity *fire, int limitX);
 
-void initSecondBattleRoom(Entity *player, int *playerLife)
+void initSecondBattleRoom(Entity *player, int *playerLife, int *playerSouls)
 {
     // --- 1. CONFIGURAÇÕES ---
     Vector2D initialGridPos = {MAXX / 2 - 9, MAXY / 2 - 4};
@@ -228,7 +229,7 @@ void initSecondBattleRoom(Entity *player, int *playerLife)
         if (timerTimeOver())
         {
             showMenu(&ch); 
-
+            showHud(playerLife, playerSouls);
             showBattleRoom(battleGrid, initialGridPos);
             
             Vector2D playerGridPos = getGridPos(player, gridVertex, initialPlayerPos, step);
