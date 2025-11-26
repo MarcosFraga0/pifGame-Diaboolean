@@ -12,6 +12,7 @@
 #include "timer.h"
 #include "keyboard.h"
 
+#include "handlers/screenHandler.h"
 #include "rooms/battle_room.h"
 
 void continueOption();

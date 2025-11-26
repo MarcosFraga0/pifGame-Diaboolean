@@ -107,8 +107,10 @@ void drawEntitySpriteLayer(char *sprite, int spriteLen, int entityLenX)
  */
 void showEntity(Entity *entity)
 {
-    // clear drawn sprite
-    clearEntitySprite(entity);
+    // if player move, clear drawn sprite
+    if (entity->vel.x || entity->vel.y){
+        clearEntitySprite(entity);
+    }
 
     // apply velocity
     entityMove(entity);

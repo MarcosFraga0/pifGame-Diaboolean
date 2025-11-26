@@ -12,8 +12,9 @@
  * @brief Init battle room and logic
  * @param {Entity *player} player principal
  * @param {int *playerLife} vida do player
+ * @param {int *playerSouls} almas do player
  */
-void initFirstRoom(Entity *player, int *playerLife)
+void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
 {
     // initial player position
     player->collision.isColliding = 0;
@@ -279,6 +280,7 @@ void initFirstRoom(Entity *player, int *playerLife)
 
         if (timerTimeOver() == 1)
         {
+            showHud(playerLife, playerSouls);
             showMenu(&ch);
             showEntities(showPreRoom ? &preRoomArray : &roomArray);
             showEntity(player);
@@ -352,6 +354,8 @@ void initFirstRoom(Entity *player, int *playerLife)
     showDialogBox("🧑", "Big Lherme", "Essa eh uma grade logica");
     setSleep(5);
 
+    /*showHud (heart and souls)*/
+    showHud(playerLife, playerSouls);
     Vector2D initPlayerPos = {initGridPos.x + 2, initGridPos.y + 1};
     resetEntity(player, initPlayerPos);
     showEntity(player);
@@ -414,6 +418,7 @@ void initFirstRoom(Entity *player, int *playerLife)
     printText("⼁", initGridPos.x + 6 * 3, initGridPos.y + 5, WHITE, GREEN);
     screenUpdate();
     showDialogBox("🧑", "Big Lherme", "correspondendo as conclusoes (valores ao redor da grid)");
+
 
     /*LINHA VERMELHA*/
     showDialogBox("🧑", "Big Lherme", "onde vermelho significa que a proposicao deve resultar em falso");
@@ -486,7 +491,7 @@ void initFirstRoom(Entity *player, int *playerLife)
     showEntity(player);
     screenUpdate();
     setSleep(5);
-    showDialogBox("🧑", "Big Lherme", "assim, validando a preposicao");
+    showDialogBox("🧑", "Big Lherme", "assim, validando a proposicao");
 
 
     showDialogBox("🧑", "Big Lherme", "mas, claro que nao seria tao facil assim, veja!");
@@ -495,7 +500,7 @@ void initFirstRoom(Entity *player, int *playerLife)
     screenUpdate();
     setSleep(5);
 
-    // frame down
+    // flame down
     showBattleRoom(battleGrid, initGridPos);
     showEntity(player);
     printText("  ", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y , WHITE, WHITE);
@@ -506,6 +511,8 @@ void initFirstRoom(Entity *player, int *playerLife)
     showEntity(player);
     printText("  ", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 4, WHITE, WHITE);
     printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 7, WHITE, WHITE);
+    *playerLife -= 1;
+    showHud(playerLife, playerSouls);
     screenUpdate();
     setSleep(3);
     showBattleRoom(battleGrid, initGridPos);
@@ -524,13 +531,13 @@ void initFirstRoom(Entity *player, int *playerLife)
     screenUpdate();
     setSleep(5);
     showDialogBox("🧑", "Big Lherme", "ataques como esse podem te machucar e desfazer seus valores logicos");
-
+    
     showDialogBox("🧑", "Big Lherme", "entendido?");
     showDialogBox("🧑", "Big Lherme", "NAO?");
     showDialogBox("🧑", "Big Lherme", "ISSO EH CESAR SCHOOL!");
     showDialogBox("🧑", "Big Lherme", "REPROVE!!!");
     // right flame
-    printText("🔥", teacherBigLherme->pos.x + 6, teacherBigLherme->pos.y, WHITE, WHITE);
+    printText("🔥", teacherBigLherme->pos.x + 6, teacherBigLherme->pos.y + 1, WHITE, WHITE);
     screenUpdate();
     setSleep(2);
     // top flame
@@ -538,10 +545,11 @@ void initFirstRoom(Entity *player, int *playerLife)
     screenUpdate();
     setSleep(2);
     // left flame
-    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y, WHITE, WHITE);
+    printText("🔥", teacherBigLherme->pos.x - 6, teacherBigLherme->pos.y + 1, WHITE, WHITE);
     screenUpdate();
     setSleep(2);
     setSleep(10);
 
     destroyGrid(battleGrid);
+    clearScreen();
 }

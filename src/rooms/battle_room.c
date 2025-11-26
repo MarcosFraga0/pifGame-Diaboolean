@@ -26,6 +26,12 @@ char CONJUNCTION[] = "^";
 BattleGrid *createGrid(int rows, int cols){
     Action **grid;
     grid = (Action**) malloc(sizeof(Action*) * rows);
+
+    // if grid isn't allocated, free grid and returns null
+    if(!grid){
+        free(grid);
+        return NULL;
+    }
     
     for(int i = 0; i < rows; i++){
         grid[i] = (Action*) malloc(sizeof(Action) * cols);
@@ -44,7 +50,15 @@ BattleGrid *createGrid(int rows, int cols){
     if(!battleGrid){
         for(int a = 0; a < rows; a++) free(grid[a]);
         free(grid);
+        free(battleGrid);
         return NULL;
+    }
+
+    // fill grid
+    for(int y = 0; y < rows; y++){
+        for(int x = 0; x < cols; x++){
+            grid[y][x] = actionNone;
+        }
     }
 
     // if it is allocated, set attributes
@@ -193,7 +207,7 @@ void showBattleRoom(BattleGrid *battleGrid, Vector2D initialGridPos)
                 bg = MAGENTA;
                 break;
             default:
-                bg = WHITE;
+                bg = MAGENTA;
                 break;
             }
 

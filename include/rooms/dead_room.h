@@ -1,13 +1,13 @@
 /**
- * @file first_room.h
- * @author Joanna
- * @date Nov, 10th 2025
- * @details first game room
+ * @file dead_room.h
+ * @author Vinicius Braz (gitviini)
+ * @date Nov, 25th 2025
+ * @brief dead's room
  */
 
-#ifndef FIRST_ROOM_H
-#define FIRST_ROOM_H
- 
+#ifndef DEAD_ROOM_H
+#define DEAD_ROOM_H
+
 #include "screen.h"
 #include "timer.h"
 #include "keyboard.h"
@@ -18,8 +18,8 @@
 #include "ui/dialog_box.h"
 #include "ui/menu.h"
 #include "ui/hud.h"
-#include "rooms/battle_room.h"
+#include "animations/player.h"
 
-void initFirstRoom(Entity *player, int *playerLife, int *playerSouls);
+void initDeadRoom(Entity *player, int *playerLife, int *playerSouls);
 
 #endif

@@ -14,8 +14,11 @@
 
 #include "entities/entity.h"
 #include "handlers/keyboardHandler.h"
+#include "rooms/dead_room.h"
 #include "rooms/first_room.h"
+#include "rooms/first_battle_room.h"
 #include "rooms/second_room.h"
+#include "rooms/desk_corridor.h"
 #include "rooms/four_room.h"
 #include "rooms/copa_room.h"
 #include "rooms/second_battle_room.h" // <--- Adicionado o header da sua nova sala
@@ -39,6 +42,7 @@ int main()
   };
 
   int playerLife = 3;
+  int playerSouls = 1;
 
   // init config
   screenInit(1);
@@ -46,13 +50,16 @@ int main()
   timerInit(CLOCK);
   screenUpdate();
 
-  // --- FLUXO DO JOGO ---
+  // game rooms
+  initFirstRoom(&player, &playerLife, &playerSouls);
+  initFirstBattleRoom(&player, &playerLife, &playerSouls);
+  initDeadRoom(&player, &playerLife, &playerSouls);
   
-  // 1. Sala da Copa (Tutorial Movimento)
-  //initCopaRoom(&player, &playerLife);
-  
-  // 2. Limpa tela e inicia Batalha 1 (Tutorial AND com Nariko)
-  initSecondBattleRoom(&player, &playerLife); 
+  /* clearScreen();
+  clearScreen();
+  initSecondRoom(&player, &playerLife, &playerSouls);
+  initFourRoom(&player, &playerLife);
+  clearScreen(); */
 
   // stop config
   screenDestroy();

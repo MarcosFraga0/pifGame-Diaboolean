@@ -1,16 +1,17 @@
 /**
- * @file first_battle_room.h
+ * @file first_room.h
  * @author Joanna
- * @date Nov, 24th 2025
- * @brief first battle
+ * @date Nov, 25th 2025
+ * @details Desk corridor (restore life and catch souls)
  */
 
-#ifndef FIRST_BATTLE_ROOM_H
-#define FIRST_BATTLE_ROOM_H
+ #ifndef DESK_CORRIDOR_H
+ #define DESK_CORRIDOR_H
 
 #include "screen.h"
 #include "timer.h"
 #include "keyboard.h"
+#include "animations/player.h"
 
 #include "handlers/keyboardHandler.h"
 #include "handlers/timeHandler.h"
@@ -18,8 +19,7 @@
 #include "ui/dialog_box.h"
 #include "ui/menu.h"
 #include "ui/hud.h"
-#include "rooms/battle_room.h"
 
-void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls);
+void initDeskCorridor(Entity *player, int *playerLife, int *playerSouls);
 
 #endif
