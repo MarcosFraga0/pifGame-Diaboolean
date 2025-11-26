@@ -53,9 +53,7 @@ int main()
   timerInit(CLOCK);
   screenUpdate();
 
-  initFourRoom(&player, &playerLife, &playerSouls);
-
-  /* if (playerRoom == 1)
+  if (playerRoom == 1)
   {
     screenClear();
     screenInit(1);
@@ -89,11 +87,16 @@ int main()
     initThirdRoom(&player, &playerLife, &playerSouls);
     initThridBattleRoom(&player, &playerLife, &playerSouls);
   }
-  
-  if (playerLife == 0)
+  if (playerRoom == 4)
   {
-    initDeadRoom(&player, &playerLife, &playerSouls);
-  } */
+    screenClear();
+    screenInit(1);
+    initFourRoom(&player, &playerLife, &playerSouls);
+    if (playerLife == 0)
+    {
+      initDeadRoom(&player, &playerLife, &playerSouls);
+    }
+  }
 
   // stop config
   screenDestroy();
