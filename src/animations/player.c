@@ -48,3 +48,19 @@ void playerAddSoul(Entity *player)
     printText("   ", x, y, WHITE, WHITE);
     screenUpdate();
 }
+
+void playerLoseSoul(Entity *player)
+{
+    // under player
+    int x = player->pos.x;
+    int y = player->pos.y - 1;
+
+    printText("👻", x, y, WHITE, WHITE);
+    screenUpdate();
+    setSleep(5);
+    printText("💥", x, y, WHITE, WHITE);
+    screenUpdate();
+    setSleep(5);
+    printText("  ", x, y, WHITE, WHITE);
+    screenUpdate();
+}
