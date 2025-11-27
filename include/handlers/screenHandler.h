@@ -1,6 +1,5 @@
 /**
  * @file screenHandler.h
- * @author Joanna
  * @date Nov, 13th 2025
  * @brief generic handlers screen
  */

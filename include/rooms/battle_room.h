@@ -1,6 +1,5 @@
 /**
  * @file battle_room.c
- * @author Vinicius Braz (gitviini)
  * @date Nov, 9th 2025
  * @details Battle room example
  */

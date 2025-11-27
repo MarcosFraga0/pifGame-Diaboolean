@@ -1,6 +1,5 @@
 /**
  * @file first_room.c
- * @author Joanna
  * @date Nov, 10th 2025
  * @details first game room
  */

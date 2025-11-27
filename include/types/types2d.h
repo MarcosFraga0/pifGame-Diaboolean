@@ -1,7 +1,6 @@
 
 /**
  * @file types2d.h
- * @author Vinicius Braz (gitviini)
  * @date Nov, 10th 2025
  * @brief generic types
  */

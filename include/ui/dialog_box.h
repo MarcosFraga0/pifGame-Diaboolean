@@ -1,6 +1,5 @@
 /**
  * @file dialog_box.h
- * @author Vinicius Braz (gitviini)
  * @date Nov, 22th 2025
  * @brief dialog box in window bottom
  */

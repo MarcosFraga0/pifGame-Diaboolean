@@ -1,6 +1,5 @@
 /**
  * @file timerHandler.h
- * @author Maria Luiza
  * @date Nov, 13th 2025
  * @brief generic time handles
  */

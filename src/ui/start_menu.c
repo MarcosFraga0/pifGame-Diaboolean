@@ -1,6 +1,5 @@
 /**
  * @file start_menu.c
- * @author Vinicius Braz (gitviini)
  * @date Nov, 26th 2025
  * @brief start menu game
  */

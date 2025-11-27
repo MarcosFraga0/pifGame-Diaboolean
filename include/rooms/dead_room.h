@@ -1,6 +1,5 @@
 /**
  * @file dead_room.h
- * @author Vinicius Braz (gitviini)
  * @date Nov, 25th 2025
  * @brief dead's room
  */

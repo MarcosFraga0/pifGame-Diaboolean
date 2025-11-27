@@ -1,6 +1,5 @@
 /**
  * @file hud.h
- * @author Vinicius Braz (gitviini)
  * @date Nov, 24th 2025
  * @brief show hud in display
  */

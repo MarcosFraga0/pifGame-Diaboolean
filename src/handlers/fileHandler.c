@@ -1,6 +1,5 @@
 /**
  * @file fileHandler.h
- * @author Vinicius Braz (gitviini)
  * @date Nov, 25th 2025
  * @brief file handler
  */

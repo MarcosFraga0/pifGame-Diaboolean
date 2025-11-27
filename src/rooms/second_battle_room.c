@@ -1,6 +1,5 @@
 /**
  * @file second_battle_room.c
- * @author Marcos
  * @details Tutorial do Operador AND (^) com Cutscene da Nariko
  */
 

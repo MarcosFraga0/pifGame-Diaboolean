@@ -1,6 +1,5 @@
 /**
  * @file third_battle_room.h
- * @author Marcos
  * @date Nov, 10th 2025
  * @details second game room
  */

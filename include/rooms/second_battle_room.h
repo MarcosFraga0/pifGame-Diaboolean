@@ -1,6 +1,5 @@
 /**
  * @file second_battle_room.h
- * @author Marcos
  * @brief Segunda Sala de Batalha
  */
 

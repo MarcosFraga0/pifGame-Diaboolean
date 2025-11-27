@@ -1,6 +1,5 @@
 /**
  * @file title.c
- * @author Vinicius Braz (gitviini)
  * @date Nov, 26th 2025
  * @brief draw title in screen
  */

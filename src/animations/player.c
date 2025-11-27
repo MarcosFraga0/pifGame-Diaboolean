@@ -1,6 +1,5 @@
 /**
  * @file player.c
- * @author Vinicius Braz (gitviini)
  * @date Nov, 22th 2025
  * @brief player animations
  */

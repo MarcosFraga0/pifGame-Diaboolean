@@ -1,7 +1,6 @@
 /**
  * @file entity.c
  * @date Nov, 9th 2025
- * @author Iza Malafaia
  * @details Implement entity features
  */
 

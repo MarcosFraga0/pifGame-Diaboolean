@@ -1,6 +1,5 @@
 /**
  * @file main.c
- * @author Vinicius Braz (gitviini)
  * @date Nov, 9th 2025
  * @details Roda lógica principal do game
  */

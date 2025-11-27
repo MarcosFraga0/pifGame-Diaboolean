@@ -1,6 +1,5 @@
 /**
  * @file actionRoomHandler.h
- * @author Vinicius Braz (gitviini)
  * @date Nov, 13th 2025
  * @brief handler of action room
  */

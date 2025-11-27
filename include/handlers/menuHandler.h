@@ -1,6 +1,5 @@
 /**
  * @file menuHandler.h
- * @author Vinicius Braz (gitviiini)
  * @date Nov, 23th 2025
  * @details manipuladores do menu
  */

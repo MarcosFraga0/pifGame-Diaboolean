@@ -1,6 +1,5 @@
 /**
  * @file four_room.h
- * @author Vinicius Braz (gitviini)
  * @date Nov, 19th 2025
  */
 

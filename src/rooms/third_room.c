@@ -1,6 +1,5 @@
 /**
 * @file first_room.c
-* @author Joanna
 * @date Nov, 25th 2025
 * @details Desk corridor (restore life and catch souls)
 */
