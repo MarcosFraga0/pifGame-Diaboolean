@@ -187,6 +187,7 @@ void initThridBattleRoom(Entity *player, int *playerLife, int *playerSouls)
 
         if (timerTimeOver())
         {
+            showHud(playerLife, playerSouls);
             showBattleRoom(battleGrid, initialGridPos);
 
             // get grid pos

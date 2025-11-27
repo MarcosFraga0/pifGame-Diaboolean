@@ -73,7 +73,7 @@ int main()
     }
     screenClear();
     screenInit(1);
-    initSecondRoom(&player, &playerLife);
+    initSecondRoom(&player, &playerLife, &playerSouls);
     initSecondBattleRoom(&player, &playerLife, &playerSouls);
     playerRoom++;
     setInfoInFile(&playerLife, &playerSouls, &playerRoom);
@@ -88,6 +88,8 @@ int main()
     screenInit(1);
     initThirdRoom(&player, &playerLife, &playerSouls);
     initThridBattleRoom(&player, &playerLife, &playerSouls);
+    playerRoom++;
+    setInfoInFile(&playerLife, &playerSouls, &playerRoom);
   }
   if (playerRoom == 4)
   {

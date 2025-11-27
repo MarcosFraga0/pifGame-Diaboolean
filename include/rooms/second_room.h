@@ -4,6 +4,6 @@
 #include "entities/entity.h"
 
 // Recebe o player e o ponteiro da vida
-void initSecondRoom(Entity *player, int *playerLife);
+void initSecondRoom(Entity *player, int *playerLife, int *playerSouls);
 
 #endif

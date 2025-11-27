@@ -10,6 +10,7 @@
 #include "handlers/timeHandler.h"
 #include "ui/dialog_box.h"
 #include "ui/menu.h"
+#include "ui/hud.h"
 #include "animations/player.h"
 
 // Define o tamanho da nossa "Salinha" dentro da tela grande
@@ -19,7 +20,7 @@
 #define ROOM_W 40              // Largura
 #define ROOM_H 14              // Altura
 
-void initSecondRoom(Entity *player, int *playerLife)
+void initSecondRoom(Entity *player, int *playerLife, int *playerSouls)
 {
     // 1. Configuração Inicial do Jogador
     // Posiciona o player na porta (canto inferior direito da sala)
@@ -127,6 +128,7 @@ void initSecondRoom(Entity *player, int *playerLife)
         if (timerTimeOver())
         {
             showMenu(&ch);
+            showHud(playerLife, playerSouls);
             showEntities(&entities);
             showEntity(player);
             screenUpdate();
