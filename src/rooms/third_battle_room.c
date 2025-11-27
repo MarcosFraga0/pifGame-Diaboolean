@@ -137,9 +137,6 @@ void initThridBattleRoom(Entity *player, int *playerLife, int *playerSouls)
     Action action = actionNone;
     char ch = ' ';
 
-    // show text after that start battle
-    /* showTextBeforeBattle(); */
-
     // reset player and set initial position
     resetEntity(player, initial);
 

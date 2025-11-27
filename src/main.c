@@ -23,6 +23,7 @@
 #include "rooms/third_room.h"
 #include "rooms/third_battle_room.h"
 #include "rooms/four_room.h"
+#include "rooms/four_battle_room.h"
 
 #define CLOCK 100
 
@@ -59,7 +60,6 @@ int main()
   {
     screenClear();
     screenInit(1);
-    // game rooms
     initFirstRoom(&player, &playerLife, &playerSouls);
     initFirstBattleRoom(&player, &playerLife, &playerSouls);
     playerRoom++;
@@ -99,7 +99,8 @@ int main()
     }
     screenClear();
     screenInit(1);
-    initFourRoom(&player, &playerLife, &playerSouls);
+    initFourOneBattleRoom(&player, &playerLife, &playerSouls);
+    initFourTwoBattleRoom(&player, &playerLife, &playerSouls);
   }
 
   // stop config

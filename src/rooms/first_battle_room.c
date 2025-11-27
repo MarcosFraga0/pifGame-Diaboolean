@@ -223,6 +223,10 @@ void initFirstBattleRoom(Entity *player, int *playerLife, int *playerSouls){
         }
     }
 
+    showBattleRoom(battleGrid, initGridPos);
+    showEntity(player);
+    screenUpdate();
+
     showDialogBox("🧑", "Big Lherme", "voce nao sabe Logica!");
     showDialogBox("🧑", "Big Lherme", "como castigo, levarei sua ALMA!!");
     playerLoseSoul(player);
