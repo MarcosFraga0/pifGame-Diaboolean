@@ -82,7 +82,7 @@ void initSecondBattleRoom(Entity *player, int *playerLife, int *playerSouls)
         // [1] Nariko (Boss)
         {{MAXX - 6, initialGridPos.y + 4}, {0,0}, {1,1}, {0, bearer}, {" "}, RED, WHITE}, 
         // [2] Fogo (Projétil)
-        {{-10, -10}, {0,0}, {1,1}, {0, damage}, "🔥", YELLOW, WHITE}
+        {{-10, -10}, {0,0}, {1,1}, {0, damage}, {"🔥"}, YELLOW, WHITE}
     };
     
     int enemiesLen = sizeof(contentEnemies) / sizeof(contentEnemies[0]);
