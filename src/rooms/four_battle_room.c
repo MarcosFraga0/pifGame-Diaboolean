@@ -376,14 +376,14 @@ void initFourTwoBattleRoom(Entity *player, int *playerLife, int *playerSouls)
          {"  "},
          WHITE,
          WHITE},
-        // red conclusion
+        // green conclusion
         {{gridVertex[1].x, gridVertex[1].y + 4},
          {0, 0},
          {2, 3},
          {0, collisionNone},
          {"⼁"},
          WHITE,
-         RED}};
+         GREEN}};
 
     EntityArray bearersArray = {
         6,

@@ -66,7 +66,37 @@ void initSecondBattleRoom(Entity *player, int *playerLife, int *playerSouls)
     // IMPORTANTE: Removi as paredes laterais invisíveis que travavam o jogador
     // Mantive apenas as visuais "decorativas" ou limites extremos
     Entity contentBearers[] = {
-
+        {{initialGridPos.x, initialGridPos.y - 2},
+         {0, 0},
+         {step * gridLen, 1},
+         {0, bearer},
+         {"  "},
+         WHITE,
+         WHITE},
+        // right
+        {{initialGridPos.x + (step * gridLen) + 2, initialGridPos.y},
+         {0, 0},
+         {2, (step / 2) * gridLen},
+         {0, bearer},
+         {"  "},
+         WHITE,
+         WHITE},
+        // bottom
+        {{initialGridPos.x, initialGridPos.y + 1 + (step / 2) * gridLen},
+         {0, 0},
+         {step * gridLen, 1},
+         {0, bearer},
+         {"  "},
+         WHITE,
+         WHITE},
+        // left
+        {{initialGridPos.x - 4, initialGridPos.y},
+         {0, 0},
+         {2, (step / 2) * gridLen},
+         {0, bearer},
+         {"  "},
+         WHITE,
+         WHITE},
         // --- DICAS VISUAIS (Verdes) ---
         // Topo (Alinhado com a coluna do meio [2][2])
         {{initialGridPos.x + step, initialGridPos.y + (step / 2) * 3}, {0,0}, {step, 1}, {0, collisionNone}, {"-"}, WHITE, GREEN},
