@@ -550,5 +550,5 @@ void initFirstRoom(Entity *player, int *playerLife, int *playerSouls)
     setSleep(10);
 
     destroyGrid(battleGrid);
-    clearScreen();
+    screenClear();
 }

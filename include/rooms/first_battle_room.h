@@ -11,6 +11,7 @@
 #include "timer.h"
 #include "keyboard.h"
 
+#include "animations/player.h"
 #include "handlers/keyboardHandler.h"
 #include "handlers/timeHandler.h"
 #include "entities/entity.h"

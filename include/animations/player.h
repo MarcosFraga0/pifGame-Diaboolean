@@ -19,4 +19,6 @@ void playerAddLife(Entity *player);
 
 void playerAddSoul(Entity *player);
 
+void playerLoseSoul(Entity *player);
+
 #endif
