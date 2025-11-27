@@ -44,7 +44,6 @@ void initThridBattleRoom(Entity *player, int *playerLife, int *playerSouls)
     battleGrid->grid[1][2] = condition;
 
     // win condition
-    battleGridCondition->grid[1][1] = setTrue;
     battleGridCondition->grid[1][3] = setFalse;
     battleGridCondition->grid[0][2] = setTrue;
     battleGridCondition->grid[2][2] = setFalse;
@@ -85,14 +84,6 @@ void initThridBattleRoom(Entity *player, int *playerLife, int *playerSouls)
              {"  "},
              WHITE,
              WHITE},
-            // green conclusion
-            {{gridVertex[1].x - 6 * 2, gridVertex[1].y},
-             {0, 0},
-             {6, 1},
-             {0, collisionNone},
-             {"-"},
-             WHITE,
-             GREEN},
             // red conclusion
             {{gridVertex[1].x, gridVertex[1].y + 4},
              {0, 0},
@@ -166,6 +157,59 @@ void initThridBattleRoom(Entity *player, int *playerLife, int *playerSouls)
     printText("😓💨", MAXX / 2 - 4, MAXY / 2, WHITE, WHITE);
     screenUpdate();
     showDialogBox(player->sprite[0], "Nerd", "**voce suspira de medo**");
+    
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntity(player);
+    showDialogBox(player->sprite[0], "Nerd", "Mas que simbolo eh esse??");
+
+    printText("👻", MAXX / 2 - 2, MINY + 3, WHITE, WHITE);
+    screenUpdate();
+    setSleep(10);
+    showDialogBox("👻", "Gasparzinho", "oi amigo...");
+    showDialogBox("👻", "Gasparzinho", "esse eh o simbolo de condicional (->).");
+
+    showDialogBox("👻", "Reprovado", "ao colocar verdadeiro em cima.");
+
+    // Demonstração
+    battleGrid->grid[0][2] = setTrue;
+
+    // Força atualização visual da grid
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(15);
+
+    showDialogBox("👻", "Reprovado", "e falso em baixo.");
+    battleGrid->grid[2][2] = setFalse;
+
+    // Força atualização visual da grid
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(15);
+
+    showDialogBox("👻", "Reprovado", "resultara em falso e qualquer outro caso sera verdadeiro");
+    battleGrid->grid[1][3] = setFalse;
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(15);
+
+    showDialogBox("👻", "Reprovado", "Agora vou indo. Boa sorte!");
+    printText("  ", MAXX / 2 - 2, MINY + 3, WHITE, WHITE);
+    for (int y = 0; y < battleGrid->rows; y++)
+    {
+        for (int x = 0; x < battleGrid->cols; x++)
+        {
+            battleGrid->grid[y][x] = actionNone;
+        }
+    }
+
+    battleGrid->grid[1][2] = condition;
+    showBattleRoom(battleGrid, initialGridPos);
+    showEntity(player);
+    screenUpdate();
+    setSleep(15);
 
     // loop logic battle room
     while (
